@@ -1,0 +1,41 @@
+name: taskmanager
+
+install:
+  run:
+  - pip install -r requirements/dev.txt -r requirements/test.txt -r requirements/requirements.txt
+
+steps:
+  clean:
+    run:
+    - rm -rf deps
+    - rm -rf output
+    - rm -rf docs/build
+    - find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
+  build:
+    run:
+    - mkdir -p output
+    - python update_version.py $(cat VERSION)
+  lint:
+    run:
+    - black .
+    - flake8 auth-rest
+  test:
+    run:
+    - pytest
+  docker-rebuild:
+    run:
+      - docker-compose build --pull --force-rm --no-cache
+  test-deploy-local:
+    run:
+      - docker-compose up -d
+      - export DEPLOY_TEST=True; pytest -m deploy --variables tests/deploy/envs/local.yml; unset DEPLOY_TEST
+      - docker-compose down
+  test-deploy-staging:
+    run:
+      - export DEPLOY_TEST=True; pytest -m deploy --variables tests/deploy/envs/staging.yml; unset DEPLOY_TEST
+  test-deploy-pro:
+    run:
+      - export DEPLOY_TEST=True; pytest -m deploy --variables tests/deploy/envs/pro.yml; unset DEPLOY_TEST
+  docs:
+    run:
+    - cd docs; make html; mkdir -p ../output/doc/html; cp -r build/html ../output/doc; cd ..

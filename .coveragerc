@@ -1,0 +1,13 @@
+# .coveragerc to control coverage.py
+
+[run]
+omit =
+        *__init__*
+        */usr/local/lib*
+        *eggs*
+        *mock_*
+        *test_*
+
+[report]
+exclude_lines =
+    raise NotImplementedMethodError

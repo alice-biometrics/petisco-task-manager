@@ -1,0 +1,9 @@
+pytest==5.0.1
+pytest-cov == 2.5.1
+pytest-mock == 1.7.1
+pytest-env == 0.6.2
+pytest-variables[yaml]
+pytest-clarity
+pytest-ordering
+flake8==3.7.7
+black==19.3b0
