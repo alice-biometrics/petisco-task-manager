@@ -1,7 +1,11 @@
 from typing import Any
 
 from meiga import Result, Failure, Error, Success
-from petisco import ValueObject, EmptyValueObjectError, ExceedLengthLimitValueObjectError
+from petisco import (
+    ValueObject,
+    EmptyValueObjectError,
+    ExceedLengthLimitValueObjectError,
+)
 
 LENGTH = 40
 

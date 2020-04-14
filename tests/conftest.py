@@ -18,8 +18,8 @@ def client():
 
 @pytest.fixture
 def database():
-
-    connection = "sqlite:///petisco.db"
+    database = os.environ.get("SQL_DATABASE", "taskmanager")
+    connection = f"sqlite:///{database}"
     engine = create_engine(connection)
 
     Base = SqlAlchemyPersistence.get_instance().base
@@ -33,4 +33,4 @@ def database():
     session.rollback()
     session.close()
     Base.metadata.drop_all(bind=engine)
-    os.remove("taskmanager.db")
+    os.remove(database)
