@@ -6,7 +6,7 @@ services:
     build:
       context: ${PWD}
       dockerfile: docker/Dockerfile
-    image: authrest
+    image: taskmanager
     container_name: auth
     restart: on-failure
     environment:
@@ -49,11 +49,11 @@ services:
       timeout: 20s
       retries: 10
 
-#  adminer:
-#    image: adminer
-#    container_name: adminer-taskmanager
-#    restart: unless-stopped
-#    ports:
-#      - 8000:8080
-#    depends_on:
-#      - mysql
+  adminer:
+    image: adminer
+    container_name: adminer-taskmanager
+    restart: unless-stopped
+    ports:
+      - 8000:8080
+    depends_on:
+      - mysql
