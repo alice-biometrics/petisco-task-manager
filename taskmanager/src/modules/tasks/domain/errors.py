@@ -1,5 +1,7 @@
 from meiga import Error
 
+from taskmanager.src.modules.tasks.domain.task_id import TaskId
+
 
 class TaskAlreadyExistError(Error):
     def __init__(self, task_id: TaskId):

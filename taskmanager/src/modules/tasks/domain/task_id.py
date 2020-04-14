@@ -14,7 +14,7 @@ LENGTH = 16
 
 class TaskId(str, ValueObject):
     def __new__(cls, task_id, length=LENGTH):
-        task_id = None if task_id == "None" else user_id
+        task_id = None if task_id == "None" else task_id
         cls.length = length
         return str.__new__(cls, task_id)
 
@@ -24,7 +24,7 @@ class TaskId(str, ValueObject):
         if task_id is not None and len(task_id) > self.length:
             return Failure(InputExceedLengthLimitError(message=task_id))
         else:
-            return Success(user_id)
+            return Success(task_id)
 
     @staticmethod
     def generate():

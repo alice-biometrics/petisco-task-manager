@@ -1,10 +1,11 @@
 import os
-
 import pytest
+
+from .modules.fixtures import *
 from sqlalchemy import create_engine
 from petisco import SqlAlchemyPersistence, Petisco
-
 from taskmanager import petisco_setup
+
 petisco_setup()
 app = Petisco.get_instance().get_app()
 

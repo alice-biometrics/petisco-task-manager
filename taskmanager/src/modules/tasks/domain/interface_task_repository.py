@@ -1,4 +1,8 @@
+from meiga import Result, Error, NotImplementedMethodError
 from petisco import IRepository
+
+from taskmanager.src.modules.tasks.domain.task import Task
+from taskmanager.src.modules.tasks.domain.task_id import TaskId
 
 
 class ITaskRepository(IRepository):

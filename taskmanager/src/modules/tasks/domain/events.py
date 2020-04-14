@@ -1,5 +1,6 @@
-from petisco import Event, TaskId
+from petisco import Event
 
+from taskmanager.src.modules.tasks.domain.task_id import TaskId
 
 EVENT_TASK_CREATED_VERSION = "1.0.0"
 

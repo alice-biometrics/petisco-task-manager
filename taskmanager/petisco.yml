@@ -19,4 +19,5 @@ infrastructure:
    repositories_provider_func: taskmanager.src.config.repositories_provider.repositories_provider
    event_manager_provider_func: taskmanager.src.config.event_manager_provider.event_manager_provider
    publish_deploy_event_func: True
+   event_topic: taskmanager
 

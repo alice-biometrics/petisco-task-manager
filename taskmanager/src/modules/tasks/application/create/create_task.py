@@ -1,32 +1,28 @@
-from typing import Optional
+from petisco import use_case_handler, UseCase, IEventManager
 
-from onboardingrest.src.kyc.domain.entities.device.device_info import DeviceInfo
-from petisco import use_case_handler, ApplicationConfig, UseCase, Name, IEventManager
+from meiga import Result, Error, isSuccess
 
-from meiga import Result, Error, Failure, Success
+from taskmanager.src.modules.tasks.domain.description import Description
+from taskmanager.src.modules.tasks.domain.title import Title
 
-from onboardingrest.application_setup import ONBOARDING_TOPIC
-from onboardingrest.src.kyc.domain.entities.device.email import Email
-from onboardingrest.src.kyc.domain.events.user_created import UserCreated
-from onboardingrest.src.kyc.domain.services.auth.interface_auth_service import (
-    IAuthService,
-)
-from petisco import InfoId
-from onboardingrest.src.shared.domain.repositories.interface_user_repository import (
-    IUserRepository,
-)
+isSuccess
+
+
+from taskmanager.src.modules.tasks.domain.interface_task_repository import ITaskRepository
+from taskmanager.src.modules.tasks.domain.task import Task
+from taskmanager.src.modules.tasks.domain.task_id import TaskId
 
 
 @use_case_handler(
-    logging_parameters_whitelist=["info_id"]
+    logging_parameters_whitelist=["task_id", "title", "description"]
 )
 class CreateTask(UseCase):
     def __init__(self, task_repository: ITaskRepository, event_manager: IEventManager):
         self.task_repository = task_repository
         self.event_manager = event_manager
 
-    def execute(self, task_id: TaskId) -> Result[str, Error]:
-        task = Task.create()
-        self.task_repository.save(task).unwrap_or_return()
+    def execute(self, task_id: TaskId, title: Title, description: Description) -> Result[str, Error]:
+        task = Task.create(task_id, title, description)
+        self.task_repository.save(task_id, task).unwrap_or_return()
         self.event_manager.publish_list(task.pull_domain_events())
         return isSuccess

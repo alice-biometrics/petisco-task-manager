@@ -1,7 +1,12 @@
-from typing import Any
+from typing import Any, Dict
 
-from meiga import Result, Error
+from meiga import Result, Error, Success
 from petisco import AggregateRoot
+
+from taskmanager.src.modules.tasks.domain.description import Description
+from taskmanager.src.modules.tasks.domain.events import TaskCreated
+from taskmanager.src.modules.tasks.domain.task_id import TaskId
+from taskmanager.src.modules.tasks.domain.title import Title
 
 
 class Task(AggregateRoot):
@@ -12,16 +17,15 @@ class Task(AggregateRoot):
         super().__init__()
 
     @staticmethod
-    def create(task_id: TaskId, body: Dict):
-        user = Task(
-            task_id=task_id,
-            title=body.get("title"),
-            description=body.get("description"),
-        )
+    def create(task_id: TaskId, title: Title, description: Description):
+        user = Task(task_id, title, description)
         user.record(TaskCreated(task_id))
         return user
 
     def to_result(self) -> Result[Any, Error]:
-        @meiga
-        def to_result(self) -> Result[Any, Error]:
-            return Success(self)
+        return Success(self)
+
+    def to_dict(self) -> Dict:
+        return {"task_id": self.task_id,
+                "title": self.title,
+                "description": self.description}

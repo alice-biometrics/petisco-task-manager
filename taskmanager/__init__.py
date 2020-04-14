@@ -1,5 +1,7 @@
 import os
 from petisco import Petisco
 
+ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
+
 def petisco_setup():
-    Petisco.from_filename(os.path.dirname(os.path.abspath(__file__)) + "/petisco.yml")
+    Petisco.from_filename(ROOT_PATH + "/petisco.yml")
