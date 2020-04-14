@@ -66,3 +66,33 @@ def test_should_return_a_405_when_post_task_with_no_description(
 
     assert response.status_code == 405
     assert response.json == {'error': {'message': 'Missing Input Description', 'type': 'MissingInputHttpError'}}
+
+
+@pytest.mark.acceptance
+def test_should_return_a_405_when_post_task_with_title_exceeds_length(
+    client, given_any_title, given_any_description
+):
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    data = {"title": given_any_title*20, "description": given_any_description}
+    response = client.post(
+        "/taskmanager/task",
+        data=json.dumps(data),
+        headers=headers,
+    )
+    assert response.status_code == 405
+    assert response.json == {'error': {'message': 'Exceed Length Limit', 'type': 'ExceedLengthLimitInputError'}}
+
+
+@pytest.mark.acceptance
+def test_should_return_a_405_when_post_task_with_description_exceeds_length(
+    client, given_any_title, given_any_description
+):
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    data = {"title": given_any_title, "description": given_any_description*200}
+    response = client.post(
+        "/taskmanager/task",
+        data=json.dumps(data),
+        headers=headers,
+    )
+    assert response.status_code == 405
+    assert response.json == {'error': {'message': 'Exceed Length Limit', 'type': 'ExceedLengthLimitInputError'}}
