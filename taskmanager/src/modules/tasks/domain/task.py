@@ -26,6 +26,8 @@ class Task(AggregateRoot):
         return Success(self)
 
     def to_dict(self) -> Dict:
-        return {"task_id": self.task_id,
-                "title": self.title,
-                "description": self.description}
+        return {
+            "task_id": self.task_id,
+            "title": self.title,
+            "description": self.description,
+        }

@@ -18,10 +18,11 @@ def given_any_title() -> Title:
 
 @pytest.fixture
 def given_any_description() -> Description:
-    return Description("New release should contain the following improvements: \n * Performance improvement\n * AggregateRoot utilities")
+    return Description(
+        "New release should contain the following improvements: \n * Performance improvement\n * AggregateRoot utilities"
+    )
 
 
 @pytest.fixture
 def given_any_task(given_any_task_id, given_any_title, given_any_description) -> Task:
     return Task(given_any_task_id, given_any_title, given_any_description)
-

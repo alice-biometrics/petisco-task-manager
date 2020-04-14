@@ -1,6 +1,15 @@
 from typing import Dict
-from petisco import IRepository
-from meiga import Result, Error, isSuccess
+from meiga import Result, Error, isSuccess, Failure
+
+from taskmanager.src.modules.tasks.domain.errors import (
+    TaskAlreadyExistError,
+    TaskNotFoundError,
+)
+from taskmanager.src.modules.tasks.domain.interface_task_repository import (
+    ITaskRepository,
+)
+from taskmanager.src.modules.tasks.domain.task import Task
+from taskmanager.src.modules.tasks.domain.task_id import TaskId
 
 
 class InMemoryTaskRepository(ITaskRepository):
