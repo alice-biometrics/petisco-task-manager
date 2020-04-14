@@ -1,10 +1,9 @@
 # coding: utf-8
 import os
-from _bowie.utils.info_git import get_version
 from setuptools import setup, find_packages
 
 CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
-version = get_version(CURRENT_DIR)
+version = open("taskmanager/VERSION", "r").read()
 package_name = "taskmanager"
 
 setup(

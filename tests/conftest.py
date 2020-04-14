@@ -4,9 +4,8 @@ import pytest
 from sqlalchemy import create_engine
 from petisco import SqlAlchemyPersistence, Petisco
 
-from taskmanager.__main__ import petisco_config
-
-petisco_config()
+from taskmanager import petisco_setup
+petisco_setup()
 app = Petisco.get_instance().get_app()
 
 

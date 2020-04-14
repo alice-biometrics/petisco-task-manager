@@ -1,11 +1,16 @@
 import pytest
 
 from meiga import Success, isFailure
-
+from unittest.mock import Mock
+from taskmanager.src.modules.tasks.domain.interface_task_repository import ITaskRepository
 
 @pytest.mark.unit
-def test_should_create_task_happy_path(given_repository,):
+def test_should_create_task_happy_path():
+
+    mock_task_repository = Mock(spec=ITaskReposiotry)
+
     assert 1 == 1
+
     """
     mock_task_repository = Mock(spec=SomeAbstractClass)
 

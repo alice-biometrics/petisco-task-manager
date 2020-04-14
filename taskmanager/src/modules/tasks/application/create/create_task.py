@@ -18,7 +18,7 @@ from onboardingrest.src.shared.domain.repositories.interface_user_repository imp
 
 
 @use_case_handler(
-    logging_parameters_whitelist=["info_id"], petisco=Petisco.get_instance()
+    logging_parameters_whitelist=["info_id"]
 )
 class CreateTask(UseCase):
     def __init__(self, task_repository: ITaskRepository, event_manager: IEventManager):
