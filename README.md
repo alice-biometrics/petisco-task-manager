@@ -6,9 +6,14 @@ This repo illustrate how to integrate petisco on a flask sample.
 
 The Application is a very simple **Task Manager** with the following entry points:
 
-- `POST /task`: Create a task, return a `task_id` (WIP)
-- `GET /task`: Get a task from its `task_id` (WIP)
-- `GET /task`: Get all tasks (TODO)
-- `PUT /task/priority`: Change task priority (TODO)
+- `POST /task`: Create a task, return a `task_id` :white_check_mark:
+- `GET /task`: Get a task from its `task_id` :white_check_mark:
+- `GET /task`: Get all tasks (TODO :recycle:)
+- `PUT /task/priority`: Change task priority (TODO :recycle:)
 
 
+TODO
+
+- [ ] Configure docker compose
+- [ ] Add Event Manager with RabbitMQ
+- [ ] Add new entry point to show more petisco features
