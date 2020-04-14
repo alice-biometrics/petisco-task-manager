@@ -2,7 +2,8 @@
 
 <img src="https://github.com/alice-biometrics/custom-emojis/blob/master/images/alice_header.png" width=auto>
 
-This repo illustrate how to integrate petisco on a flask sample. 
+Flask Petisco Application Exampe 
+
 
 The Application is a very simple **Task Manager** with the following entry points:
 
