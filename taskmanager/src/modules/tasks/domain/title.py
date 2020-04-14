@@ -1,10 +1,10 @@
 from typing import Any
 
 from meiga import Result, Failure, Error, Success
-
-from petisco.domain.value_objects.value_object import ValueObject
-from petisco.domain.errors.input_exceed_lenght_limit_error import (
-    InputExceedLengthLimitError,
+from petisco import (
+    ValueObject,
+    EmptyValueObjectError,
+    ExceedLengthLimitValueObjectError,
 )
 
 LENGTH = 40
@@ -19,7 +19,10 @@ class Title(str, ValueObject):
     def to_result(self) -> Result[Any, Error]:
         title = None if self == "None" else self
 
+        if not title:
+            return Failure(EmptyValueObjectError(self.__class__.__name__))
+
         if title is not None and len(title) > self.length:
-            return Failure(InputExceedLengthLimitError(message=title))
+            return Failure(ExceedLengthLimitValueObjectError(message=title))
         else:
             return Success(title)

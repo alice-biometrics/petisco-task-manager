@@ -2,10 +2,12 @@ from typing import Any
 
 from meiga import Result, Failure, Error, Success
 
-from petisco.domain.value_objects.value_object import ValueObject
-from petisco.domain.errors.input_exceed_lenght_limit_error import (
-    InputExceedLengthLimitError,
+from petisco import (
+    ValueObject,
+    EmptyValueObjectError,
+    ExceedLengthLimitValueObjectError,
 )
+
 
 LENGTH = 200
 
@@ -19,7 +21,10 @@ class Description(str, ValueObject):
     def to_result(self) -> Result[Any, Error]:
         description = None if self == "None" else self
 
+        if not description:
+            return Failure(EmptyValueObjectError(self.__class__.__name__))
+
         if description is not None and len(description) > self.length:
-            return Failure(InputExceedLengthLimitError(message=description))
+            return Failure(ExceedLengthLimitValueObjectError(message=description))
         else:
             return Success(description)

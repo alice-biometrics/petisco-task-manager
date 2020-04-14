@@ -1,7 +1,8 @@
 from petisco import use_case_handler, UseCase, IEventManager
 
-from meiga import Result, Error, isSuccess
+from meiga import Result, Error, Success
 
+from taskmanager import TASK_MANAGER_EVENT_TOPIC
 from taskmanager.src.modules.tasks.domain.description import Description
 from taskmanager.src.modules.tasks.domain.title import Title
 
@@ -20,8 +21,11 @@ class CreateTask(UseCase):
 
     def execute(
         self, task_id: TaskId, title: Title, description: Description
-    ) -> Result[str, Error]:
+    ) -> Result[TaskId, Error]:
+
         task = Task.create(task_id, title, description)
         self.task_repository.save(task_id, task).unwrap_or_return()
-        self.event_manager.publish_list(task.pull_domain_events())
-        return isSuccess
+        self.event_manager.publish_list(
+            TASK_MANAGER_EVENT_TOPIC, task.pull_domain_events()
+        )
+        return Success(task_id)

@@ -40,6 +40,49 @@ paths:
           description: Access token or API key is missing or invalid.
         500:
           description: Unexpected Error obtaining environment info
+  /task:
+    post:
+      summary: Add a new task to the application
+      description: Add a new task to the application
+      operationId: taskmanager.src.modules.tasks.application.create.post_task.post_task
+      requestBody:
+        description: Create a new Task in the appliction
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+         200:
+          description: Successful operation
+         405:
+          description: Invalid input
+         409:
+           description: Task Already exist
+  /task/{task_id}:
+    get:
+      summary: Get task from task_id
+      description: Get task from task_id
+      operationId: taskmanager.src.modules.tasks.application.retrieve.get_task.get_task
+      parameters:
+        - in: path
+          name: task_id
+          required: true
+          schema:
+            type: string
+          description: Task unique identifier
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskWithId'
+        405:
+          description: Invalid input
+        409:
+          description: Task Already exist
+
 
 servers:
   - url: 'https://apis.alicebiometrics.com/taskmanager'
@@ -56,3 +99,28 @@ components:
       in: header
       name: apikey
       x-apikeyInfoFunc: petisco.frameworks.flask.application.security_schemas.api_key_info_func
+  schemas:
+    Task:
+      type: "object"
+      required:
+      - "title"
+      - "description"
+      properties:
+        title:
+          type: "string"
+          example: "Release new petisco version"
+        description:
+          type: "string"
+          example: "This version adds new awesome features."
+    TaskWithId:
+      type: "object"
+      properties:
+        title:
+          type: "string"
+          example: "Release new petisco version"
+        description:
+          type: "string"
+          example: "This version adds new awesome features."
+        task_id:
+          type: "string"
+          example: "5t5qXjRuYFasoS28"

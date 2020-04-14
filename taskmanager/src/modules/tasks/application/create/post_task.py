@@ -1,22 +1,22 @@
 from typing import Dict
 
-from meiga import Result
-from petisco import controller_handler, HttpError, Petisco
+from petisco import controller_handler, Petisco
 
 from taskmanager.src.modules.tasks.application.create.create_task import CreateTask
+from taskmanager.src.modules.tasks.application.create.post_task_error_handler import (
+    post_task_error_handler,
+)
 from taskmanager.src.modules.tasks.domain.description import Description
 from taskmanager.src.modules.tasks.domain.task_id import TaskId
 from taskmanager.src.modules.tasks.domain.title import Title
 
 
-def error_handler(result: Result):
-    # domain_error = result.value
-    return HttpError()
-
-
 @controller_handler(
-    success_handler=lambda result: ({"message": "Created Task"}, 200),
-    error_handler=error_handler,
+    success_handler=lambda result: (
+        {"message": "Created Task", "task_id": str(result.value)},
+        200,
+    ),
+    error_handler=post_task_error_handler,
 )
 def post_task(body: Dict):
 
