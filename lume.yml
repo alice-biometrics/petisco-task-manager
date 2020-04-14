@@ -11,10 +11,6 @@ steps:
     - rm -rf output
     - rm -rf docs/build
     - find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
-  build:
-    run:
-    - mkdir -p output
-    - python update_version.py $(cat VERSION)
   lint:
     run:
     - black .
