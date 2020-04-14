@@ -21,14 +21,14 @@ steps:
   docker-rebuild:
     run:
       - docker-compose build --pull --force-rm --no-cache
-  test-deploy-local:
+  test-e2e-local:
     run:
       - docker-compose up -d
-      - export DEPLOY_TEST=True; pytest -m deploy --variables tests/deploy/envs/local.yml
+      - export END2END_TEST=True; pytest -m end2end --variables tests/end2end/envs/local.yml
       - docker-compose down
-  test-deploy-staging:
+  test-e2e-staging:
     run:
-      - export DEPLOY_TEST=True; pytest -m deploy --variables tests/deploy/envs/staging.yml
-  test-deploy-pro:
+      - export END2END_TEST=True; pytest -m end2end --variables tests/end2end/envs/staging.yml
+  test-e2e-pro:
     run:
-      - export DEPLOY_TEST=True; pytest -m deploy --variables tests/deploy/envs/pro.yml
+      - export END2END_TEST=True; pytest -m end2end --variables tests/end2end/envs/pro.yml
