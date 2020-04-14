@@ -40,6 +40,23 @@ paths:
           description: Access token or API key is missing or invalid.
         500:
           description: Unexpected Error obtaining environment info
+  /task:
+    post:
+      summary: Add a new task to the application
+      description: Add a new task to the application
+      operationId: taskmanager.src.modules.tasks.application.create.post_task.post_task
+      responses:
+         200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+         405:
+          description: Invalid input
+         409:
+           description: Task Already exist
+
 
 servers:
   - url: 'https://apis.alicebiometrics.com/taskmanager'
@@ -56,3 +73,16 @@ components:
       in: header
       name: apikey
       x-apikeyInfoFunc: petisco.frameworks.flask.application.security_schemas.api_key_info_func
+  schemas:
+    Task:
+      type: "object"
+      required:
+      - "title"
+      - "description"
+      properties:
+        title:
+          type: "string"
+          example: "Release new petisco version"
+        description:
+          type: "string"
+          example: "This version adds new awesome features."
