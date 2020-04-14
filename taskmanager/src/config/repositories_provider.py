@@ -24,7 +24,9 @@ def get_config_task_repository() -> ITaskRepository:
     if not task_repository_type or task_repository_type == "inmemory":
         task_repository = InMemoryTaskRepository()
     elif task_repository_type == "sqlite" or task_repository_type == "mysql":
-        task_repository = SqlTaskRepository(session_scope=Petisco.persistence_session_scope(),
-                                            task_model=Petisco.persistence_models().get("task"))
+        task_repository = SqlTaskRepository(
+            session_scope=Petisco.persistence_session_scope(),
+            task_model=Petisco.persistence_models().get("task"),
+        )
 
     return task_repository

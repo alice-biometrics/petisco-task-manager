@@ -23,7 +23,9 @@ class SqlTaskRepository(ITaskRepository):
     def save(self, task_id: TaskId, task: Task) -> Result[bool, Error]:
         with self.session_scope() as session:
             task_model = (
-                session.query(self.TaskModel).filter(self.TaskModel.task_id == task_id).first()
+                session.query(self.TaskModel)
+                .filter(self.TaskModel.task_id == task_id)
+                .first()
             )
             if task_model:
                 return Failure(TaskAlreadyExistError(task_id))
@@ -42,7 +44,9 @@ class SqlTaskRepository(ITaskRepository):
 
         with self.session_scope() as session:
             task_model = (
-                session.query(self.TaskModel).filter(self.TaskModel.task_id == task_id).first()
+                session.query(self.TaskModel)
+                .filter(self.TaskModel.task_id == task_id)
+                .first()
             )
             if not task_model:
                 return Failure(TaskNotFoundError(task_id))

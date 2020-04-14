@@ -1,4 +1,3 @@
-import json
 from typing import Any, Dict
 
 from meiga import Result, Error, Success
@@ -21,7 +20,6 @@ class Task(AggregateRoot):
         self.created_at = created_at
         super().__init__()
 
-
     @staticmethod
     def create(task_id: TaskId, title: Title, description: Description):
         user = Task(task_id, title, description, datetime.utcnow())
@@ -38,5 +36,3 @@ class Task(AggregateRoot):
             "description": self.description,
             "created_at": self.created_at.isoformat(),
         }
-
-

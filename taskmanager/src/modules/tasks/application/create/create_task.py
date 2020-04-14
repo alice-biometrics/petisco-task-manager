@@ -1,6 +1,6 @@
 from petisco import use_case_handler, UseCase, IEventManager
 
-from meiga import Result, Error, isSuccess, Success
+from meiga import Result, Error, Success
 
 from taskmanager import TASK_MANAGER_EVENT_TOPIC
 from taskmanager.src.modules.tasks.domain.description import Description
