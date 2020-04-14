@@ -1,7 +1,7 @@
 import os
 import pytest
 
-from .modules.fixtures import *
+from tests.modules.fixtures import *
 from sqlalchemy import create_engine
 from petisco import SqlAlchemyPersistence, Petisco
 from taskmanager import petisco_setup

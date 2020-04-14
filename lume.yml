@@ -14,7 +14,7 @@ steps:
   lint:
     run:
     - black .
-    - flake8 auth-rest
+    - flake8 taskmanager
   test:
     run:
     - pytest
@@ -24,14 +24,11 @@ steps:
   test-deploy-local:
     run:
       - docker-compose up -d
-      - export DEPLOY_TEST=True; pytest -m deploy --variables tests/deploy/envs/local.yml; unset DEPLOY_TEST
+      - export DEPLOY_TEST=True; pytest -m deploy --variables tests/deploy/envs/local.yml
       - docker-compose down
   test-deploy-staging:
     run:
-      - export DEPLOY_TEST=True; pytest -m deploy --variables tests/deploy/envs/staging.yml; unset DEPLOY_TEST
+      - export DEPLOY_TEST=True; pytest -m deploy --variables tests/deploy/envs/staging.yml
   test-deploy-pro:
     run:
-      - export DEPLOY_TEST=True; pytest -m deploy --variables tests/deploy/envs/pro.yml; unset DEPLOY_TEST
-  docs:
-    run:
-    - cd docs; make html; mkdir -p ../output/doc/html; cp -r build/html ../output/doc; cd ..
+      - export DEPLOY_TEST=True; pytest -m deploy --variables tests/deploy/envs/pro.yml
