@@ -1,4 +1,5 @@
 import os
+from typing import Callable
 
 from petisco.persistence.sqlalchemy.sqlalchemy_persistence_config import (
     SqlAlchemyPersistenceConfig,
@@ -8,9 +9,10 @@ from petisco.persistence.sqlalchemy.sqlalchemy_persistence_connector import (
 )
 
 
-def config_persistence():
+def config_persistence(import_database_models: Callable):
+
     config = sql_alchemy_persistence_config_provider()
-    persistence_connector = SqlAlchemyPersistenceConnector(config=config)
+    persistence_connector = SqlAlchemyPersistenceConnector(config=config, import_database_models=import_database_models)
     persistence_connector.execute()
 
 
