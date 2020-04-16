@@ -1,7 +1,7 @@
-requests == 2.18.4
+requests == 2.20.0
 python_dateutil == 2.6.0
 setuptools >= 21.0.0
-validators==0.12.2
+validators==0.12.6
 petisco[flask,sqlalchemy,rabbitmq]==0.20.2
 python-json-logger==0.1.11
 json-logging-py==0.2
