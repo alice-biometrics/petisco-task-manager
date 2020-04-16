@@ -12,6 +12,7 @@ from petisco.persistence.sqlalchemy.sqlalchemy_persistence_connector import (
 def config_persistence(import_database_models: Callable):
 
     config = sql_alchemy_persistence_config_provider()
+
     persistence_connector = SqlAlchemyPersistenceConnector(
         config=config, import_database_models=import_database_models
     )

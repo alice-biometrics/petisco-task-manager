@@ -10,10 +10,10 @@ services:
     container_name: taskmanager
     restart: on-failure
     environment:
-      - GUNICORN_WORKERS=1
-      - TASK_REPOSITORY_TYPE=sqlite
-      - SQL_SERVER=sqlite
-      - SQL_DATABASE=tasmanager_test.db
+      - GUNICORN_WORKERS
+      - TASK_REPOSITORY_TYPE
+      - SQL_SERVER
+      - SQL_DATABASE
     volumes:
       - ${GOOGLE_APPLICATION_CREDENTIALS}/..:/credentials
     ports:
