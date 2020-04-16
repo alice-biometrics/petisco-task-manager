@@ -22,10 +22,36 @@ services:
       - ${GOOGLE_APPLICATION_CREDENTIALS}/..:/credentials
     ports:
       - 8080:4000
+    depends_on:
+      - rabbitmq
+      - mysql
+    links:
+      - rabbitmq
+      - mysql
   mysql:
     image: mysql:5.7
     container_name: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER
     ports:
       - 3307:3306
+    healthcheck:
+      test: ["CMD", "mysql", "--user=$$MYSQL_USER", "--password=$$MYSQL_ROOT_PASSWORD", "-e", "'SHOW DATABASES;'"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER
+      - RABBITMQ_DEFAULT_PASS
+    ports:
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:15672"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
