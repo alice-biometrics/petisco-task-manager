@@ -18,7 +18,9 @@ def client():
 
 @pytest.fixture
 def database():
+    """
     database = os.environ.get("SQL_DATABASE", "taskmanager")
+    database = f"{database}_test"
     connection = f"sqlite:///{database}"
     engine = create_engine(connection)
 
@@ -34,3 +36,4 @@ def database():
     session.close()
     Base.metadata.drop_all(bind=engine)
     os.remove(database)
+    """

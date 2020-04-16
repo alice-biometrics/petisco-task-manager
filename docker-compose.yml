@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.3'
 
 services:
 
@@ -7,53 +7,14 @@ services:
       context: ${PWD}
       dockerfile: docker/Dockerfile
     image: taskmanager
-    container_name: auth
+    container_name: taskmanager
     restart: on-failure
     environment:
-      - MODE=DEPLOY
-      - RABBITMQ_HOST=rabbitmq
+      - GUNICORN_WORKERS
+      - TASK_REPOSITORY_TYPE
+      - SQL_SERVER
+      - SQL_DATABASE
     volumes:
       - ${GOOGLE_APPLICATION_CREDENTIALS}/..:/credentials
     ports:
       - 8080:4000
-    depends_on:
-      - rabbitmq
-      - mysql
-    links:
-      - rabbitmq
-      - mysql
-
-  rabbitmq:
-    image: 'rabbitmq:3.7-management'
-    container_name: rabbitmq-taskmanager
-    restart: unless-stopped
-    ports:
-      - 5672:5672
-      - 15672:15672
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:15672"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
-  mysql:
-    image: mysql:5.7
-    container_name: mysql-taskmanager
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=local-taskmanager-db
-    ports:
-     - 3307:3306
-    healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
-
-  adminer:
-    image: adminer
-    container_name: adminer-taskmanager
-    restart: unless-stopped
-    ports:
-      - 8000:8080
-    depends_on:
-      - mysql

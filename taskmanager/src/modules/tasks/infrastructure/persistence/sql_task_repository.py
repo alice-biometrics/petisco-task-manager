@@ -41,7 +41,6 @@ class SqlTaskRepository(ITaskRepository):
             return isSuccess
 
     def retrieve(self, task_id: TaskId) -> Result[Task, Error]:
-
         with self.session_scope() as session:
             task_model = (
                 session.query(self.TaskModel)

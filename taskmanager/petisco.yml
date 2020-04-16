@@ -10,8 +10,8 @@ framework:
 logger:
     selected_logger: logging
     name: petisco
-    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    #format: "%(name)s - %(levelname)s - %(message)s"
+    #format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    format: "%(name)s - %(levelname)s - %(message)s"
     config_func: taskmanager.src.config.logging_config_func.logging_config_func
 persistence:
   config_func: taskmanager.src.config.config_persistence.config_persistence

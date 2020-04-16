@@ -1,8 +1,7 @@
 name: taskmanager
 
 install:
-  run:
-  - pip install -r requirements/dev.txt -r requirements/test.txt -r requirements/requirements.txt
+  run: pip install -r requirements/dev.txt -r requirements/test.txt -r requirements/requirements.txt
 
 steps:
   clean:
@@ -16,19 +15,42 @@ steps:
     - black .
     - flake8 taskmanager
   test:
-    run:
-    - pytest
+    run: pytest
   docker-rebuild:
-    run:
-      - docker-compose build --pull --force-rm --no-cache
-  test-deploy-local:
-    run:
-      - docker-compose up -d
-      - export DEPLOY_TEST=True; pytest -m deploy --variables tests/deploy/envs/local.yml
+    run: docker-compose build --pull --force-rm --no-cache
+  test-e2e-local-python:
+    envs:
+      END2END_TEST: "True"
+      PETISCO_PORT: "8080"
+      TASK_REPOSITORY_TYPE: sqlite # declared already in pytest.ini
+      SQL_SERVER: sqlite  # declared already in pytest.ini
+      SQL_DATABASE: tasmanager_test.db  # declared already in pytest.ini
+    setup_detach:
+      log_filename: taskmanager.log
+      run: python -m taskmanager
+    run: pytest -m end2end --variables tests/end2end/envs/local.yml
+    teardown:
+      - echo ${SQL_DATABASE}
+      - rm ${SQL_DATABASE}
+  test-e2e-local:
+    envs:
+      END2END_TEST: True
+      GUNICORN_WORKERS: 1
+      TASK_REPOSITORY_TYPE: sqlite # declared already in pytest.ini
+      SQL_SERVER: sqlite # declared already in pytest.ini
+      SQL_DATABASE: taskmanager_test.db # declared already in pytest.ini
+    setup: docker-compose up -d
+    run: pytest -m end2end --variables tests/end2end/envs/local.yml
+    teardown:
       - docker-compose down
-  test-deploy-staging:
+      - rm ${SQL_DATABASE}
+  test-e2e-staging:
+    envs:
+      END2END_TEST: True
     run:
-      - export DEPLOY_TEST=True; pytest -m deploy --variables tests/deploy/envs/staging.yml
-  test-deploy-pro:
+      - pytest -m end2end --variables tests/end2end/envs/staging.yml
+  test-e2e-pro:
+    envs:
+      END2END_TEST: True
     run:
-      - export DEPLOY_TEST=True; pytest -m deploy --variables tests/deploy/envs/pro.yml
+      - pytest -m end2end --variables tests/end2end/envs/pro.yml
