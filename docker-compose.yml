@@ -13,8 +13,19 @@ services:
       - GUNICORN_WORKERS
       - TASK_REPOSITORY_TYPE
       - SQL_SERVER
-      - SQL_DATABASE
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
     volumes:
       - ${GOOGLE_APPLICATION_CREDENTIALS}/..:/credentials
     ports:
       - 8080:4000
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3307:3306
