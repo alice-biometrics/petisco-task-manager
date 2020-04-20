@@ -43,8 +43,8 @@ steps:
       MYSQL_DATABASE: taskmanager
       MYSQL_USER: root
       MYSQL_PASSWORD: root
-      MYSQL_HOST: localhost
-      MYSQL_PORT: 3307
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
     setup: docker-compose up -d
     wait_seconds: 10
     run: pytest -m end2end --variables tests/end2end/envs/local.yml

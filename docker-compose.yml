@@ -16,8 +16,8 @@ services:
       - MYSQL_DATABASE
       - MYSQL_USER
       - MYSQL_PASSWORD
-      - MYSQL_HOST=mysql
-      - MYSQL_PORT=3306
+      - MYSQL_HOST
+      - MYSQL_PORT
     volumes:
       - ${GOOGLE_APPLICATION_CREDENTIALS}/..:/credentials
     ports:

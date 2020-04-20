@@ -2,12 +2,13 @@ import os
 import pytest
 
 from tests.modules.fixtures import *
-from sqlalchemy import create_engine
-from petisco import SqlAlchemyPersistence, Petisco
-from taskmanager import petisco_setup
 
-petisco_setup()
-app = Petisco.get_instance().get_app()
+if not os.environ.get("END2END_TEST"):
+    from sqlalchemy import create_engine
+    from petisco import SqlAlchemyPersistence, Petisco
+    from taskmanager import petisco_setup
+    petisco_setup()
+    app = Petisco.get_instance().get_app()
 
 
 @pytest.fixture
