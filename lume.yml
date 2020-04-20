@@ -36,14 +36,20 @@ steps:
     envs:
       END2END_TEST: True
       GUNICORN_WORKERS: 1
-      TASK_REPOSITORY_TYPE: sqlite # declared already in pytest.ini
-      SQL_SERVER: sqlite # declared already in pytest.ini
-      SQL_DATABASE: taskmanager_test.db # declared already in pytest.ini
+      EVENT_MANAGER_TYPE: rabbitmq
+      TASK_REPOSITORY_TYPE: mysql # declared already in pytest.ini
+      SQL_SERVER: mysql # declared already in pytest.ini
+      SQL_DATABASE: taskmanager
+      MYSQL_DATABASE: taskmanager
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
     setup: docker-compose up -d
+    wait_seconds: 10
     run: pytest -m end2end --variables tests/end2end/envs/local.yml
     teardown:
       - docker-compose down
-      - rm ${SQL_DATABASE}
   test-e2e-staging:
     envs:
       END2END_TEST: True
