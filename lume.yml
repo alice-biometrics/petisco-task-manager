@@ -1,7 +1,7 @@
 name: taskmanager
 
 install:
-  run: pip install -r requirements/dev.txt -r requirements/test.txt -r requirements/requirements.txt
+  run: pip install -U -r requirements/dev.txt -r requirements/test.txt -r requirements/requirements.txt
 
 steps:
   clean:
@@ -31,7 +31,7 @@ steps:
       log_filename: taskmanager.log
       run: python -m taskmanager
     wait_http_200: http://0.0.0.0:8080/taskmanager/healthcheck
-    run: pytest -c pytest.end2end.ini -m end2end --variables tests/end2end/envs/local.yml
+    run: pytest -c pytest.end2end.ini --variables tests/end2end/envs/local.yml
     teardown:
       - echo ${SQL_DATABASE}
       - rm ${SQL_DATABASE}
@@ -41,7 +41,7 @@ steps:
     envs_file: env.local.mysql.yml
     setup: docker-compose up -d
     wait_http_200: http://0.0.0.0:8080/taskmanager/healthcheck
-    run: pytest -c pytest.end2end.ini -m end2end --variables tests/end2end/envs/local.yml
+    run: pytest -c pytest.end2end.ini --variables tests/end2end/envs/local.yml
     teardown:
       - docker-compose down
       - docker-compose ps
@@ -49,9 +49,9 @@ steps:
     envs:
       END2END_TEST: True
     run:
-      - pytest -m end2end --variables tests/end2end/envs/staging.yml
+      - pytest -c pytest.end2end.ini --variables tests/end2end/envs/staging.yml
   test-e2e-pro:
     envs:
       END2END_TEST: True
     run:
-      - pytest -m end2end --variables tests/end2end/envs/pro.yml
+      - pytest -c pytest.end2end.ini --variables tests/end2end/envs/pro.yml
