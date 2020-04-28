@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  description: Task Manager [Petisco Flask Sample]
+  description: taskmanager
   version: 1.0.0
-  title: Task Manager
+  title: taskmanager
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'

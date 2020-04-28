@@ -1,7 +1,7 @@
 name: taskmanager
 
 install:
-  run: pip install -r requirements/dev.txt -r requirements/test.txt -r requirements/requirements.txt
+  run: pip install -U -r requirements/dev.txt -r requirements/test.txt -r requirements/requirements.txt
 
 steps:
   clean:
@@ -16,47 +16,42 @@ steps:
     - flake8 taskmanager
   test:
     run: pytest
+  run-local:
+    envs_file: env.local.sqlite.yml
+    run: python -m taskmanager
+  test-local:
+    run: pytest -c pytest.end2end.ini -m end2end --variables tests/end2end/envs/local.yml
   docker-rebuild:
     run: docker-compose build --pull --force-rm --no-cache
   test-e2e-local-python:
     envs:
       END2END_TEST: "True"
-      PETISCO_PORT: "8080"
-      TASK_REPOSITORY_TYPE: sqlite # declared already in pytest.ini
-      SQL_SERVER: sqlite  # declared already in pytest.ini
-      SQL_DATABASE: tasmanager_test.db  # declared already in pytest.ini
+    envs_file: env.local.sqlite.yml
     setup_detach:
       log_filename: taskmanager.log
       run: python -m taskmanager
-    run: pytest -m end2end --variables tests/end2end/envs/local.yml
+    wait_http_200: http://0.0.0.0:8080/taskmanager/healthcheck
+    run: pytest -c pytest.end2end.ini --variables tests/end2end/envs/local.yml
     teardown:
       - echo ${SQL_DATABASE}
       - rm ${SQL_DATABASE}
   test-e2e-local:
     envs:
       END2END_TEST: True
-      GUNICORN_WORKERS: 1
-      EVENT_MANAGER_TYPE: rabbitmq
-      TASK_REPOSITORY_TYPE: mysql # declared already in pytest.ini
-      SQL_SERVER: mysql # declared already in pytest.ini
-      SQL_DATABASE: taskmanager
-      MYSQL_DATABASE: taskmanager
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_HOST: mysql
-      MYSQL_PORT: 3306
+    envs_file: env.local.mysql.yml
     setup: docker-compose up -d
-    wait_seconds: 10
-    run: pytest -m end2end --variables tests/end2end/envs/local.yml
+    wait_http_200: http://0.0.0.0:8080/taskmanager/healthcheck
+    run: pytest -c pytest.end2end.ini --variables tests/end2end/envs/local.yml
     teardown:
       - docker-compose down
+      - docker-compose ps
   test-e2e-staging:
     envs:
       END2END_TEST: True
     run:
-      - pytest -m end2end --variables tests/end2end/envs/staging.yml
+      - pytest -c pytest.end2end.ini --variables tests/end2end/envs/staging.yml
   test-e2e-pro:
     envs:
       END2END_TEST: True
     run:
-      - pytest -m end2end --variables tests/end2end/envs/pro.yml
+      - pytest -c pytest.end2end.ini --variables tests/end2end/envs/pro.yml

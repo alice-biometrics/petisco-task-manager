@@ -1,4 +1,4 @@
-lume==0.2.7
+lume
 pre-commit
 pytest-clarity
 flake8==3.7.7

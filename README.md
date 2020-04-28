@@ -5,12 +5,36 @@
 Flask Petisco Application Example. Use [petisco :cookie:](https://github.com/alice-biometrics/petisco) to help you developing clean applications.
 
 ## Table of Contents
+- [Use this template :v:](#use-this-template-v)
 - [Application :rocket:](#application-rocket)
 - [Installation :computer:](#installation-computer)
 - [Testing :white_check_mark:](#testing-white_check_mark)
 - [Configuration :gear:](#configuration-gear)
 - [Contact :mailbox_with_mail:](#contact-mailbox_with_mail)
 
+
+## Use this template :v:
+
+1. Click `Use this template` in Github Web :octocat:
+
+2. Once in the root package, install requirements:
+
+```console
+>> conda create -n myenv python=3.6
+>> conda activate myenv
+(myenv) >> pip install lume
+(myenv) >> lume -install
+```
+3. Then, you can change project name with `petisco` :cookie:
+
+```console
+(myenv) >> petisco --rename-template myservice
+```
+If you want to change another time the name, just type:
+
+```console
+(myenv) >> petisco --rename-template brandnewname --original-template-name myservice 
+```
 
 ## Application :rocket:
 
@@ -30,7 +54,8 @@ Example:
 ```console
 >> conda create -n myenv python=3.6
 >> conda activate myenv
-(myenv) >> lume -install # pip install lume if needed
+(myenv) >> pip install lume
+(myenv) >> lume -install
 ```
 
 ## Testing :white_check_mark:
