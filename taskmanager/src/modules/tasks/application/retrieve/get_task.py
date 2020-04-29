@@ -14,6 +14,7 @@ from taskmanager.src.modules.tasks.domain.task_id import TaskId
     error_handler=get_task_error_handler,
 )
 def get_task(task_id: str):
+
     task_id = TaskId(task_id).guard()
 
     use_case = RetrieveTask(task_repository=Petisco.repositories().task)

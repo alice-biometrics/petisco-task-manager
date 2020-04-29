@@ -23,10 +23,9 @@ def post_task(body: Dict):
     task_id = TaskId.generate()
     title = Title(body.get("title")).guard()
     description = Description(body.get("description")).guard()
-
     use_case = CreateTask(
         task_repository=Petisco.repositories().task,
-        event_manager=Petisco.event_manager(),
+        publisher=Petisco.get_event_publisher(),
     )
 
     return use_case.execute(task_id, title, description)

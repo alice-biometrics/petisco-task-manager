@@ -19,14 +19,11 @@ def repositories_provider() -> Dict[str, IRepository]:
 
 
 def get_config_task_repository() -> ITaskRepository:
-
     task_repository_type = os.environ.get("TASK_REPOSITORY_TYPE")
-    if not task_repository_type or task_repository_type == "inmemory":
-        task_repository = InMemoryTaskRepository()
-    elif task_repository_type == "sqlite" or task_repository_type == "mysql":
+    task_repository = InMemoryTaskRepository()
+    if task_repository_type == "sqlite" or task_repository_type == "mysql":
         task_repository = SqlTaskRepository(
             session_scope=Petisco.persistence_session_scope(),
             task_model=Petisco.persistence_models().get("task"),
         )
-
     return task_repository

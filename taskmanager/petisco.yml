@@ -10,16 +10,17 @@ framework:
 logger:
     selected_logger: logging
     name: petisco
-    #format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     format: "%(name)s - %(levelname)s - %(message)s"
-    config_func: taskmanager.src.config.logging_config_func.logging_config_func
+    config_func: taskmanager.src.config.logging.logging_config_func
 persistence:
-  config_func: taskmanager.src.config.config_persistence.config_persistence
+  config: taskmanager.src.config.persistence.config_persistence
   models:
     task: taskmanager.src.modules.tasks.infrastructure.persistence.models.task_model.TaskModel
-infrastructure:
-   services_provider_func: taskmanager.src.config.services_provider.services_provider
-   repositories_provider_func: taskmanager.src.config.repositories_provider.repositories_provider
-   event_manager_provider_func: taskmanager.src.config.event_manager_provider.event_manager_provider
-   publish_deploy_event_func: True
-   event_topic: taskmanager
+providers:
+   services_provider: taskmanager.src.config.services.services_provider
+   repositories_provider: taskmanager.src.config.repositories.repositories_provider
+events:
+  publish_deploy_event_func: True
+  publisher:
+    provider: taskmanager.src.config.events.publisher_provider
+
