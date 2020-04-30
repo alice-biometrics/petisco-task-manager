@@ -27,7 +27,7 @@ def test_should_create_task_happy_path(
     result = use_case.execute(given_any_task_id, given_any_title, given_any_description)
 
     mock_task_repository.save.assert_called_once()
-    mock_event_publisher.publish_list.assert_called_once()
+    mock_event_publisher.publish_events.assert_called_once()
 
     assert_success(result)
 
@@ -47,6 +47,6 @@ def test_should_return_task_already_exist_error(
     result = use_case.execute(given_any_task_id, given_any_title, given_any_description)
 
     mock_task_repository.save.assert_called_once()
-    mock_event_publisher.publish_list.assert_not_called()
+    mock_event_publisher.publish_events.assert_not_called()
 
     assert_failure(result, value_is_instance_of=TaskAlreadyExistError)

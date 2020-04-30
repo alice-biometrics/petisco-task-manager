@@ -23,5 +23,5 @@ class CreateTask(UseCase):
     ) -> Result[TaskId, Error]:
         task = Task.create(task_id, title, description)
         self.repository.save(task_id, task).unwrap_or_return()
-        self.publisher.publish_list(task.pull_domain_events())
+        self.publisher.publish_events(task.pull_domain_events())
         return Success(task_id)
