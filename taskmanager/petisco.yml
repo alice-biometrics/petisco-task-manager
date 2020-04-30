@@ -11,11 +11,12 @@ logger:
     selected_logger: logging
     name: petisco
     format: "%(name)s - %(levelname)s - %(message)s"
-    config_func: taskmanager.src.config.logging.logging_config_func
+    config: taskmanager.src.config.logging.logging_config
 persistence:
   config: taskmanager.src.config.persistence.config_persistence
   models:
     task: taskmanager.src.modules.tasks.infrastructure.persistence.models.task_model.TaskModel
+    event: taskmanager.src.modules.events.infrastructure.persistence.models.event_model.EventModel
 providers:
    services_provider: taskmanager.src.config.services.services_provider
    repositories_provider: taskmanager.src.config.repositories.repositories_provider
@@ -23,4 +24,13 @@ events:
   publish_deploy_event_func: True
   publisher:
     provider: taskmanager.src.config.events.publisher_provider
+  subscriber:
+    provider: taskmanager.src.config.events.subscriber_provider
+    subscribers:
+      store-event:
+        organization: acme
+        service: taskmanager
+        topic: taskmanager-events
+        dead_letter: True
+        handler: taskmanager.src.modules.events.application.store.event_store.event_store
 

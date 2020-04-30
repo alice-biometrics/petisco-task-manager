@@ -29,3 +29,11 @@ def test_end2end(base_url, given_any_title, given_any_description):
 
     response = requests.get(f"{base_url}/task/{task_id}")
     assert response.status_code == 200
+
+    data_to_delete = {"title": "Deleteme", "description": "Deleteme"}
+    response = requests.post(f"{base_url}/task", json=data_to_delete)
+    assert response.status_code == 200
+    task_id_to_delete = response.json()["task_id"]
+
+    response = requests.delete(f"{base_url}/task/{task_id_to_delete}")
+    assert response.status_code == 200

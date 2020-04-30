@@ -21,7 +21,6 @@ def test_should_create_task_happy_path(
     mock_task_repository = Mock(spec=ITaskRepository)
     mock_task_repository.save = Mock(return_value=isSuccess)
     mock_event_publisher = Mock(spec=IEventPublisher)
-    mock_event_publisher.publish_list = Mock(return_value=isSuccess)
 
     use_case = CreateTask(mock_task_repository, mock_event_publisher)
 

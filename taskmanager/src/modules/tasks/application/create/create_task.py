@@ -14,14 +14,14 @@ from taskmanager.src.modules.tasks.domain.task_id import TaskId
 
 @use_case_handler(logging_parameters_whitelist=["task_id", "title", "description"])
 class CreateTask(UseCase):
-    def __init__(self, task_repository: ITaskRepository, publisher: IEventPublisher):
-        self.task_repository = task_repository
+    def __init__(self, repository: ITaskRepository, publisher: IEventPublisher):
+        self.repository = repository
         self.publisher = publisher
 
     def execute(
         self, task_id: TaskId, title: Title, description: Description
     ) -> Result[TaskId, Error]:
         task = Task.create(task_id, title, description)
-        self.task_repository.save(task_id, task).unwrap_or_return()
+        self.repository.save(task_id, task).unwrap_or_return()
         self.publisher.publish_list(task.pull_domain_events())
         return Success(task_id)
