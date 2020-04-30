@@ -2,6 +2,10 @@ app:
   name: taskmanager
   version:
     from_file: VERSION
+cron:
+  dead-letter:
+    seconds: 20 #21600 # 6 hours
+    handler: taskmanager.src.modules.events.application.requeue.requeue_event.subscribe_to_dead_letter
 framework:
     selected_framework: flask
     config_file: swagger.yaml

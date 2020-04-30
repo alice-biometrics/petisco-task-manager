@@ -19,7 +19,8 @@ def get_task(task_id: str):
     task_id = TaskId(task_id).guard()
 
     use_case = TaskRetriever(
-        repository=Petisco.repositories().task, publisher=Petisco.get_event_publisher()
+        repository=Petisco.get_repository("task"),
+        publisher=Petisco.get_event_publisher(),
     )
 
     return use_case.execute(task_id)

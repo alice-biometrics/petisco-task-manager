@@ -19,18 +19,18 @@ class InMemoryEventRepository(IEventRepository):
         return {"name": self.__class__.__name__}
 
     def save(self, event_id: EventId, event: Event) -> Result[bool, Error]:
-        if event_id in self.events:
+        if str(event_id) in self.events:
             return Failure(EventAlreadyExistError(event_id))
-        self.events[event_id] = event
+        self.events[str(event_id)] = event
         return isSuccess
 
     def retrieve(self, event_id: EventId) -> Result[Event, Error]:
-        if event_id not in self.events:
+        if str(event_id) not in self.events:
             return Failure(EventNotFoundError(event_id))
-        return Success(self.events[event_id])
+        return Success(self.events[str(event_id)])
 
     def remove(self, event_id: EventId) -> Result[bool, Error]:
-        if event_id not in self.events:
+        if str(event_id) not in self.events:
             return Failure(EventNotFoundError(event_id))
-        self.events.pop(event_id)
+        self.events.pop(str(event_id))
         return isSuccess

@@ -43,19 +43,18 @@ def given_any_task(given_any_task_id, given_any_title, given_any_description) ->
 
 
 @pytest.fixture
-def given_empty_sql_task_repository(given_any_task_id, given_any_task):
+def given_empty_sql_task_repository():
     repository = SqlTaskRepository(
         session_scope=Petisco.persistence_session_scope(),
-        task_model=Petisco.persistence_models().get("task"),
+        task_model=Petisco.get_persistence_model("task"),
     )
     return repository
 
 
 @pytest.fixture
-def given_a_sql_task_repository_with_a_task(given_any_task_id, given_any_task):
-    repository = SqlTaskRepository(
-        session_scope=Petisco.persistence_session_scope(),
-        task_model=Petisco.persistence_models().get("task"),
-    )
+def given_a_sql_task_repository_with_a_task(
+    given_empty_sql_task_repository, given_any_task_id, given_any_task
+):
+    repository = given_empty_sql_task_repository
     repository.save(given_any_task_id, given_any_task)
     return repository

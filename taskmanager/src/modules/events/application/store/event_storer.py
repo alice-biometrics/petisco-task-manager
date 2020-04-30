@@ -9,11 +9,11 @@ from taskmanager.src.modules.events.domain.interface_event_repository import (
 
 @use_case_handler()
 class EventStorer(UseCase):
-    def __init__(self, event_repository: IEventRepository):
-        self.event_repository = event_repository
+    def __init__(self, repository: IEventRepository):
+        self.repository = repository
 
     def execute(self, event: Event) -> Result[bool, Error]:
 
-        self.self.event_repository.save(event.event_id, event).unwrap_or_return()
+        self.repository.save(event.event_id, event).unwrap_or_return()
 
         return isSuccess
