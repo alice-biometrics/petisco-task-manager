@@ -1,0 +1,39 @@
+name: ci-end2end
+
+on:
+  pull_request:
+    paths-ignore:
+      - '*.md'
+      - 'taskmanager/VERSION'
+    branches: 
+      - master
+  push:
+    paths-ignore:
+      - '*.md'
+      - 'taskmanager/VERSION'
+    branches:
+      - master
+
+jobs:
+  ci-end2end:
+
+    strategy:
+      max-parallel: 4
+      matrix:
+        os: ubuntu-latest
+        python-version: 3.6
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }
+    - name: Install dependencies
+      run: |
+        pip install lume
+        lume -install
+    - name: Test
+      run: |
+        lume -test-e2e-local
