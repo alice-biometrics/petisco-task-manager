@@ -105,6 +105,16 @@ paths:
         405:
           description: Invalid input
 
+  /events:
+    get:
+      summary: Get All Domain Events
+      description: Get All Domain Events
+      operationId: taskmanager.src.modules.events.application.retrieve.get_events.get_events
+      responses:
+        200:
+          description: Successful operation
+        405:
+          description: Invalid input
 
 servers:
   - url: 'https://apis.alicebiometrics.com/taskmanager'

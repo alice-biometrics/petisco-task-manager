@@ -1,6 +1,6 @@
 from typing import Dict, Callable
 from meiga import Result, Error, isSuccess, Failure, Success
-from petisco import EventId, Event
+from petisco import EventId, Event, Events
 
 from taskmanager.src.modules.events.domain.errors import (
     EventAlreadyExistError,
@@ -49,3 +49,14 @@ class SqlEventRepository(IEventRepository):
             event = Event.from_json(event_model.data)
 
             return Success(event)
+
+    def retrieve_all(self) -> Result[Events, Error]:
+        with self.session_scope() as session:
+            event_models = session.query(self.EventModel).all()
+            events: Events = []
+
+            if event_models:
+                for event_model in event_models:
+                    events.append(Event.from_json(event_model.data))
+
+            return Success(events)

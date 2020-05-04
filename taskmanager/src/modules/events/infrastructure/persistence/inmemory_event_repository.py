@@ -1,6 +1,6 @@
 from typing import Dict
 from meiga import Result, Error, isSuccess, Failure, Success
-from petisco import EventId, Event
+from petisco import EventId, Event, Events
 
 from taskmanager.src.modules.events.domain.errors import (
     EventAlreadyExistError,
@@ -28,6 +28,9 @@ class InMemoryEventRepository(IEventRepository):
         if str(event_id) not in self.events:
             return Failure(EventNotFoundError(event_id))
         return Success(self.events[str(event_id)])
+
+    def retrieve_all(self) -> Result[Events, Error]:
+        return Success(list(self.events.values()))
 
     def remove(self, event_id: EventId) -> Result[bool, Error]:
         if str(event_id) not in self.events:

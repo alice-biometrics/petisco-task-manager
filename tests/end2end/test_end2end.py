@@ -1,4 +1,5 @@
 import os
+from time import sleep
 
 import pytest
 import requests
@@ -37,3 +38,11 @@ def test_end2end(base_url, given_any_title, given_any_description):
 
     response = requests.delete(f"{base_url}/task/{task_id_to_delete}")
     assert response.status_code == 200
+
+    sleep(2.0)
+
+    response = requests.get(f"{base_url}/events")
+
+    assert response.status_code == 200
+    events = response.json().get("events")
+    assert len(events) >= 2
