@@ -29,3 +29,9 @@ class InMemoryTaskRepository(ITaskRepository):
         if task_id not in self.tasks:
             return Failure(TaskNotFoundError(task_id))
         return self.tasks[task_id]
+
+    def remove(self, task_id: TaskId) -> Result[bool, Error]:
+        if task_id not in self.tasks:
+            return Failure(TaskNotFoundError(task_id))
+        self.tasks.pop(task_id)
+        return isSuccess

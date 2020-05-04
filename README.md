@@ -42,6 +42,7 @@ The Application is a very simple **Task Manager** with the following entry point
 
 - `POST /task`: Create a task, return a `task_id` :white_check_mark:
 - `GET /task`: Get a task from its `task_id` :white_check_mark:
+- `GET /events`: Get all events :white_check_mark:
 - `GET /task`: Get all tasks (TODO :recycle:)
 - `PUT /task/priority`: Change task priority (TODO :recycle:)
 

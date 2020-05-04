@@ -3,6 +3,9 @@ name: taskmanager
 install:
   run: pip install -U -r requirements/dev.txt -r requirements/test.txt -r requirements/requirements.txt
 
+settings:
+  show_exit_code: True
+
 steps:
   clean:
     run:
@@ -16,13 +19,18 @@ steps:
     - flake8 taskmanager
   test:
     run: pytest
+  docker-rebuild:
+    run: docker-compose build --pull --force-rm --no-cache
   run-local:
+    envs_file: env.local.mysql.yml
+    run: docker-compose up
+  run-local-python:
     envs_file: env.local.sqlite.yml
     run: python -m taskmanager
   test-local:
+    envs:
+      END2END_TEST: "True"
     run: pytest -c pytest.end2end.ini -m end2end --variables tests/end2end/envs/local.yml
-  docker-rebuild:
-    run: docker-compose build --pull --force-rm --no-cache
   test-e2e-local-python:
     envs:
       END2END_TEST: "True"
@@ -34,12 +42,12 @@ steps:
     run: pytest -c pytest.end2end.ini --variables tests/end2end/envs/local.yml
     teardown:
       - echo ${SQL_DATABASE}
-      - rm ${SQL_DATABASE}
+      #- rm ${SQL_DATABASE}
   test-e2e-local:
     envs:
       END2END_TEST: True
     envs_file: env.local.mysql.yml
-    setup: docker-compose up -d
+    setup: docker-compose up -d --remove-orphans
     wait_http_200: http://0.0.0.0:8080/taskmanager/healthcheck
     run: pytest -c pytest.end2end.ini --variables tests/end2end/envs/local.yml
     teardown:

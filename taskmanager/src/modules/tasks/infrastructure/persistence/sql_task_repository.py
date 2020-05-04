@@ -58,3 +58,17 @@ class SqlTaskRepository(ITaskRepository):
             )
 
             return Success(task)
+
+    def remove(self, task_id: TaskId) -> Result[Task, Error]:
+        with self.session_scope() as session:
+            task_model = (
+                session.query(self.TaskModel)
+                .filter(self.TaskModel.task_id == task_id)
+                .first()
+            )
+            if not task_model:
+                return Failure(TaskNotFoundError(task_id))
+
+            session.delete(task_model)
+
+            return isSuccess

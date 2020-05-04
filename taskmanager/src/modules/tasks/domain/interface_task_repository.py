@@ -11,3 +11,6 @@ class ITaskRepository(IRepository):
 
     def retrieve(self, task_id: TaskId) -> Result[Task, Error]:
         return NotImplementedMethodError
+
+    def remove(self, task_id: TaskId) -> Result[bool, Error]:
+        return NotImplementedMethodError

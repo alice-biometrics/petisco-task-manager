@@ -1,8 +1,7 @@
-from petisco import use_case_handler, UseCase, IEventManager
+from petisco import use_case_handler, UseCase, IEventPublisher
 
 from meiga import Result, Error, Success
 
-from taskmanager import TASK_MANAGER_EVENT_TOPIC
 from taskmanager.src.modules.tasks.domain.description import Description
 from taskmanager.src.modules.tasks.domain.title import Title
 
@@ -15,17 +14,14 @@ from taskmanager.src.modules.tasks.domain.task_id import TaskId
 
 @use_case_handler(logging_parameters_whitelist=["task_id", "title", "description"])
 class CreateTask(UseCase):
-    def __init__(self, task_repository: ITaskRepository, event_manager: IEventManager):
-        self.task_repository = task_repository
-        self.event_manager = event_manager
+    def __init__(self, repository: ITaskRepository, publisher: IEventPublisher):
+        self.repository = repository
+        self.publisher = publisher
 
     def execute(
         self, task_id: TaskId, title: Title, description: Description
     ) -> Result[TaskId, Error]:
-
         task = Task.create(task_id, title, description)
-        self.task_repository.save(task_id, task).unwrap_or_return()
-        self.event_manager.publish_list(
-            TASK_MANAGER_EVENT_TOPIC, task.pull_domain_events()
-        )
+        self.repository.save(task_id, task).unwrap_or_return()
+        self.publisher.publish_events(task.pull_domain_events())
         return Success(task_id)

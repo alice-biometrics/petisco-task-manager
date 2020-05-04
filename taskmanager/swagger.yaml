@@ -60,6 +60,28 @@ paths:
          409:
            description: Task Already exist
   /task/{task_id}:
+    delete:
+      summary: Delete task from task_id
+      description: Delete task from task_id
+      operationId: taskmanager.src.modules.tasks.application.delete.delete_task.delete_task
+      parameters:
+        - in: path
+          name: task_id
+          required: true
+          schema:
+            type: string
+          description: Task unique identifier
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskWithId'
+        404:
+          description: Task Not Found
+        405:
+          description: Invalid input
     get:
       summary: Get task from task_id
       description: Get task from task_id
@@ -78,11 +100,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TaskWithId'
+        404:
+          description: Task Not Found
         405:
           description: Invalid input
-        409:
-          description: Task Already exist
 
+  /events:
+    get:
+      summary: Get All Domain Events
+      description: Get All Domain Events
+      operationId: taskmanager.src.modules.events.application.retrieve.get_events.get_events
+      responses:
+        200:
+          description: Successful operation
+        405:
+          description: Invalid input
 
 servers:
   - url: 'https://apis.alicebiometrics.com/taskmanager'

@@ -10,8 +10,11 @@ services:
     container_name: taskmanager
     restart: on-failure
     environment:
+      - EVENT_PUBLISHER_TYPE
+      - EVENT_SUBSCRIBER_TYPE
       - GUNICORN_WORKERS
       - TASK_REPOSITORY_TYPE
+      - EVENT_REPOSITORY_TYPE
       - SQL_SERVER
       - MYSQL_DATABASE
       - MYSQL_USER
@@ -30,7 +33,7 @@ services:
       - mysql
   mysql:
     image: mysql:5.7
-    container_name: mysql
+    container_name: mysql-taskmanager
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER
@@ -41,9 +44,18 @@ services:
       interval: 30s
       timeout: 5s
       retries: 5
+
+  adminer:
+    image: adminer
+    depends_on:
+      - mysql
+    restart: always
+    ports:
+      - 8090:8080
+
   rabbitmq:
     image: rabbitmq:3.8-management
-    container_name: rabbitmq
+    container_name: rabbitmq-taskmanager
     environment:
       - RABBITMQ_DEFAULT_USER
       - RABBITMQ_DEFAULT_PASS
