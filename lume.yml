@@ -51,7 +51,7 @@ steps:
     wait_http_200: http://0.0.0.0:8080/taskmanager/healthcheck
     run: pytest -c pytest.end2end.ini --variables tests/end2end/envs/local.yml
     teardown:
-      #- docker-compose down
+      - docker-compose down
       - docker-compose ps
   test-e2e-staging:
     envs:

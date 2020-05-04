@@ -1,17 +1,18 @@
+from meiga import Result
 from petisco import controller_handler, Petisco
 
 from taskmanager.src.modules.events.application.retrieve.events_retriever import (
     EventsRetriever,
 )
-from taskmanager.src.modules.events.application.retrieve.get_events_error_handle import (
-    get_events_error_handler,
-)
+
+
+def success_handler(result: Result):
+    events = [event.to_dict() for event in result.value]
+    return {"events": events}, 200
 
 
 @controller_handler(
-    logger=Petisco.get_instance().logger,
-    success_handler=lambda result: ({"events": result.value}, 200),
-    error_handler=get_events_error_handler,
+    logger=Petisco.get_instance().logger, success_handler=success_handler
 )
 def get_events():
     use_case = EventsRetriever(

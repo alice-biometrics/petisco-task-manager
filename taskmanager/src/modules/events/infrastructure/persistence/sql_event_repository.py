@@ -54,7 +54,6 @@ class SqlEventRepository(IEventRepository):
         with self.session_scope() as session:
             event_models = session.query(self.EventModel).all()
             events: Events = []
-
             if event_models:
                 for event_model in event_models:
                     events.append(Event.from_json(event_model.data))
