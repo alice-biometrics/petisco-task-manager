@@ -12,6 +12,7 @@ services:
     environment:
       - EVENT_PUBLISHER_TYPE
       - EVENT_SUBSCRIBER_TYPE
+      - RABBITMQ_HOST
       - GUNICORN_WORKERS
       - TASK_REPOSITORY_TYPE
       - EVENT_REPOSITORY_TYPE
@@ -21,8 +22,6 @@ services:
       - MYSQL_PASSWORD
       - MYSQL_HOST
       - MYSQL_PORT
-    volumes:
-      - ${GOOGLE_APPLICATION_CREDENTIALS}/..:/credentials
     ports:
       - 8080:4000
     depends_on:
@@ -56,9 +55,6 @@ services:
   rabbitmq:
     image: rabbitmq:3.8-management
     container_name: rabbitmq-taskmanager
-    environment:
-      - RABBITMQ_DEFAULT_USER
-      - RABBITMQ_DEFAULT_PASS
     ports:
       - 5672:5672
       - 15672:15672

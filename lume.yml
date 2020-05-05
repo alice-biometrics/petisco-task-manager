@@ -48,9 +48,10 @@ steps:
       END2END_TEST: True
     envs_file: env.local.mysql.yml
     setup: docker-compose up -d --remove-orphans
-    wait_http_200: http://0.0.0.0:8080/taskmanager/healthcheck
+    wait_http_200: http://localhost:8080/taskmanager/healthcheck
     run: pytest -c pytest.end2end.ini --variables tests/end2end/envs/local.yml
     teardown:
+      - docker-compose logs > taskmanager.docker.compose.log
       - docker-compose down
       - docker-compose ps
   test-e2e-staging:
