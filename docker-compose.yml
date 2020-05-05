@@ -46,6 +46,7 @@ services:
 
   adminer:
     image: adminer
+    container_name: adminer-taskmanager
     depends_on:
       - mysql
     restart: always
