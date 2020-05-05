@@ -93,7 +93,7 @@ Application can be configured by *environment variables*.
     - `TASK_REPOSITORY_TYPE: sqlite`
     - `EVENT_REPOSITORY_TYPE: sqlite`
     - `SQL_SERVER: sqlite`
-    - `SQL_DATABASE: tasmanager_test.db`
+    - `SQL_DATABASE: taskmanager_test.db`
   * mysql:
     - `TASK_REPOSITORY_TYPE: mysql`
     - `EVENT_REPOSITORY_TYPE: mysql`
