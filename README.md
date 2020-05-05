@@ -43,7 +43,7 @@ The Application is a very simple **Task Manager** with the following entry point
 - `POST /task`: Create a task, return a `task_id` :white_check_mark:
 - `GET /task`: Get a task from its `task_id` :white_check_mark:
 - `GET /events`: Get all events :white_check_mark:
-- `GET /task`: Get all tasks (TODO :recycle:)
+- `GET /tasks`: Get all tasks (TODO :recycle:)
 - `PUT /task/priority`: Change task priority (TODO :recycle:)
 
 ## Installation :computer:
@@ -88,12 +88,15 @@ Application can be configured by *environment variables*.
 * Persistence 💾:
   * inmemory:
     - `TASK_REPOSITORY_TYPE: inmemory`
+    - `EVENT_REPOSITORY_TYPE: inmemory`
   * sqlite:
     - `TASK_REPOSITORY_TYPE: sqlite`
+    - `EVENT_REPOSITORY_TYPE: sqlite`
     - `SQL_SERVER: sqlite`
     - `SQL_DATABASE: tasmanager_test.db`
   * mysql:
     - `TASK_REPOSITORY_TYPE: mysql`
+    - `EVENT_REPOSITORY_TYPE: mysql`
     - `SQL_SERVER: mysql`
     - `SQL_DATABASE: taskmanager`
     - `MYSQL_DATABASE: taskmanager`
@@ -107,7 +110,6 @@ Application can be configured by *environment variables*.
   * `RABBITMQ_USER: "guest"`
   * `RABBITMQ_HOST: "localhost"`
   * `RABBITMQ_PORT: "5672"`
-  * `RABBITMQ_DEPLOY_TOPIC: "deploy"`
 
 ## Contact :mailbox_with_mail:
 
