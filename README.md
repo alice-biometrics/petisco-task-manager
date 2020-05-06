@@ -10,6 +10,7 @@ Flask Petisco Application Example. Use [petisco :cookie:](https://github.com/ali
 - [Installation :computer:](#installation-computer)
 - [Testing :white_check_mark:](#testing-white_check_mark)
 - [Configuration :gear:](#configuration-gear)
+- [Local Deploy :zap:](#local-deploy-zap)
 - [Contact :mailbox_with_mail:](#contact-mailbox_with_mail)
 
 
@@ -106,10 +107,33 @@ Application can be configured by *environment variables*.
     - `MYSQL_PORT: 3306`
 * Event Manager <img src="https://github.com/alice-biometrics/custom-emojis/blob/master/images/rabbitmq.png" width="16">
 :
-  * `EVENT_MANAGER_TYPE: "rabbitmq"` (By default it uses a not implemented event manager)
+  * `EVENT_PUBLISHER_TYPE: "rabbitmq"` (By default it uses a not implemented event manager)
+  * `EVENT_SUBSCRIBER_TYPE: "rabbitmq"` (By default it uses a not implemented event manager)
   * `RABBITMQ_USER: "guest"`
   * `RABBITMQ_HOST: "localhost"`
   * `RABBITMQ_PORT: "5672"`
+  
+## Local Deploy :zap:
+
+You can run all the stack using docker-compose and lume.
+
+```
+lume -run-local
+```
+
+You can access both the message broker and the database with the following applications:
+
+* RabbitMQ <img src="https://github.com/alice-biometrics/custom-emojis/blob/master/images/rabbitmq.png" width="16">: [http://localhost:15672/](http://localhost:15672/)
+    * Username: guest 
+    * Password: guest
+* Adminer (MySQL): [http://localhost:8090/](http://localhost:8090/)
+    * System: MySQL
+    * Server: mysql
+    * Username: root 
+    * Password: root
+    * Database: taskmanager
+
+These default values might change if you modify environment variables.
 
 ## Contact :mailbox_with_mail:
 
