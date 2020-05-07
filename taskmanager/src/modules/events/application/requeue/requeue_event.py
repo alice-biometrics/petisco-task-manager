@@ -4,7 +4,7 @@ from petisco import (
     Event,
     Petisco,
     RabbitMQEventSubscriber,
-    RabbitMQEnvConfig,
+    RabbitMQConnector,
     ConfigEventSubscriber,
 )
 from petisco.events.subscriber.domain.subscriber_handler import subscriber_handler
@@ -21,7 +21,7 @@ def requeue_from_dead_letter(event: Event):
 
 def subscribe_to_dead_letter():
     subscriber = RabbitMQEventSubscriber(
-        connection=RabbitMQEnvConfig.get_connection("dead-letter"),
+        connector=RabbitMQConnector(),
         subscribers={
             "dead-letter": ConfigEventSubscriber(
                 organization="acme",
@@ -31,6 +31,7 @@ def subscribe_to_dead_letter():
                 dead_letter=True,
             )
         },
+        connection_name="dead-letter-subscriber",
     )
     subscriber.subscribe_all()
 

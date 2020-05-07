@@ -5,7 +5,7 @@ from petisco import (
     IEventPublisher,
     RabbitMQEventPublisher,
     NotImplementedEventPublisher,
-    RabbitMQEnvConfig,
+    RabbitMQConnector,
     IEventSubscriber,
     ConfigEventSubscriber,
     RabbitMQEventSubscriber,
@@ -15,9 +15,8 @@ from petisco import (
 
 def publisher_provider() -> IEventPublisher:
     def rabbitmq_event_publisher_provider() -> RabbitMQEventPublisher:
-        connection = RabbitMQEnvConfig.get_connection("publisher")
         return RabbitMQEventPublisher(
-            connection=connection,
+            connector=RabbitMQConnector(),
             organization="acme",
             service="taskmanager",
             topic="taskmanager-events",
@@ -35,8 +34,9 @@ def subscriber_provider(
     subscribers: Dict[str, ConfigEventSubscriber]
 ) -> IEventSubscriber:
     def rabbitmq_event_subscriber_provider() -> RabbitMQEventSubscriber:
-        connection = RabbitMQEnvConfig.get_connection("subscriber")
-        return RabbitMQEventSubscriber(connection=connection, subscribers=subscribers)
+        return RabbitMQEventSubscriber(
+            connector=RabbitMQConnector(), subscribers=subscribers
+        )
 
     event_subscriber = NotImplementedEventSubscriber(subscribers)
     event_subscriber_type = os.environ.get("EVENT_SUBSCRIBER_TYPE")
