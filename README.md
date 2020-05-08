@@ -126,7 +126,7 @@ You can access both the message broker and the database with the following appli
 * RabbitMQ <img src="https://github.com/alice-biometrics/custom-emojis/blob/master/images/rabbitmq.png" width="16">: [http://localhost:15672/](http://localhost:15672/)
     * Username: guest 
     * Password: guest
-* Adminer (MySQL): [http://localhost:8090/?server=mysql&username=root&db=eventmanager](http://localhost:8090/?server=mysql&username=root&db=taskmanager)
+* Adminer (MySQL): [http://localhost:8090/?server=mysql&username=root&db=taskmanager](http://localhost:8090/?server=mysql&username=root&db=taskmanager)
     * System: MySQL
     * Server: mysql
     * Username: root 
