@@ -39,10 +39,10 @@ def test_end2end(base_url, given_any_title, given_any_description):
     response = requests.delete(f"{base_url}/task/{task_id_to_delete}")
     assert response.status_code == 200
 
-    sleep(2.0)
+    sleep(5.0)
 
     response_events = requests.get(f"{base_url}/events")
 
     assert response_events.status_code == 200
     events = response_events.json().get("events")
-    assert len(events) >= 2
+    assert len(events) >= 1
