@@ -21,9 +21,11 @@ steps:
     run: pytest
   docker-rebuild:
     run: docker-compose build --pull --force-rm --no-cache
+  up-deps:
+    run: docker-compose -f docker-compose.deps.yml up -d
   run-local:
     envs_file: env.local.mysql.yml
-    run: docker-compose up
+    run: python -m taskmanager
   run-local-python:
     envs_file: env.local.sqlite.yml
     run: python -m taskmanager
@@ -34,13 +36,15 @@ steps:
   test-e2e-local-python:
     envs:
       END2END_TEST: "True"
+      LOCAL_LOG: taskmanager.local.log
     envs_file: env.local.sqlite.yml
     setup_detach:
       log_filename: taskmanager.log
-      run: python -m taskmanager
+      run: python -m taskmanager > ${LOCAL_LOG}
     wait_http_200: http://0.0.0.0:8080/taskmanager/healthcheck
     run: pytest -c pytest.end2end.ini --variables tests/end2end/envs/local.yml
     teardown:
+      - echo ${LOCAL_LOG}
       - echo ${SQL_DATABASE}
       #- rm ${SQL_DATABASE}
   test-e2e-local:
@@ -51,7 +55,7 @@ steps:
     wait_http_200: http://localhost:8080/taskmanager/healthcheck
     run: pytest -c pytest.end2end.ini --variables tests/end2end/envs/local.yml
     teardown:
-      - docker-compose logs > taskmanager.docker.compose.log
+      - docker-compose logs taskmanager > taskmanager.docker.compose.log
       - docker-compose down
       - docker-compose ps
   test-e2e-staging:
@@ -64,3 +68,5 @@ steps:
       END2END_TEST: True
     run:
       - pytest -c pytest.end2end.ini --variables tests/end2end/envs/pro.yml
+  down-deps:
+    run: docker-compose -f docker-compose.deps.yml down

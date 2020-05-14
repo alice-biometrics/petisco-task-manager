@@ -2,10 +2,19 @@ app:
   name: taskmanager
   version:
     from_file: VERSION
-cron:
+tasks:
   dead-letter:
-    seconds: 21600 # 6 hours
+    seconds: 21600 # (seconds) 6 hours
     handler: taskmanager.src.modules.events.application.requeue.requeue_event.subscribe_to_dead_letter
+  recurring-task:
+    run_in: 20 # (seconds)
+    interval: 10 # (seconds)
+    handler: taskmanager.src.modules.dummy.tasks.recurring_task
+  scheduled-task:
+    run_in: 10 # (seconds)
+    handler: taskmanager.src.modules.dummy.tasks.scheduled_task
+  instant-task:
+    handler: taskmanager.src.modules.dummy.tasks.instant_task
 framework:
     selected_framework: flask
     config_file: swagger.yaml

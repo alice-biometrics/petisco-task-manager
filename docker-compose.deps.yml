@@ -1,0 +1,38 @@
+version: '3.3'
+
+services:
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql-eventmanager
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER
+    ports:
+      - 3307:3306
+    healthcheck:
+      test: ["CMD", "mysql", "--user=$$MYSQL_USER", "--password=$$MYSQL_ROOT_PASSWORD", "-e", "'SHOW DATABASES;'"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  adminer:
+    image: adminer
+    container_name: adminer-eventmanager
+    depends_on:
+      - mysql
+    restart: always
+    ports:
+      - 8090:8080
+
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    container_name: rabbitmq-eventmanager
+    ports:
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:15672"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
