@@ -50,6 +50,7 @@ steps:
   test-e2e-local:
     envs:
       END2END_TEST: True
+      LUME_WAIT_HTTP_200_NUM_MAX_ATTEMPTS: 60
     envs_file: env.local.mysql.yml
     setup: docker-compose up -d --remove-orphans
     wait_http_200: http://localhost:8080/taskmanager/healthcheck
