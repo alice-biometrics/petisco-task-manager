@@ -1,16 +1,13 @@
-import time
+from petisco import Petisco, LogMessage, INFO
 
 
 def recurring_task():
-    now = time.strftime("%A, %d. %B %Y %I:%M:%S %p")
-    print(f"recurring_task: {now}")
+    Petisco.get_logger().log(INFO, LogMessage().set_message("recurring_task"))
 
 
 def scheduled_task():
-    now = time.strftime("%A, %d. %B %Y %I:%M:%S %p")
-    print(f"scheduled_task: {now}")
+    Petisco.get_logger().log(INFO, LogMessage().set_message("scheduled_task"))
 
 
 def instant_task():
-    now = time.strftime("%A, %d. %B %Y %I:%M:%S %p")
-    print(f"instant_task: {now}")
+    Petisco.get_logger().log(INFO, LogMessage().set_message("instant_task"))
