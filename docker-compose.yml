@@ -12,6 +12,7 @@ services:
     environment:
       - EVENT_PUBLISHER_TYPE
       - EVENT_SUBSCRIBER_TYPE
+      - NOTIFIER
       - RABBITMQ_HOST
       - GUNICORN_WORKERS
       - TASK_REPOSITORY_TYPE
