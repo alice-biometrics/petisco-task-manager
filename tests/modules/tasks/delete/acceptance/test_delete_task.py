@@ -9,7 +9,7 @@ def test_should_return_a_200_when_delete_task(
 ):
 
     headers = {"Content-type": "application/json", "Accept": "text/plain"}
-    data = {"title": given_any_title, "description": given_any_description}
+    data = {"title": given_any_title.value, "description": given_any_description.value}
     response = petisco_client.post(
         "/taskmanager/task", data=json.dumps(data), headers=headers
     )
@@ -26,9 +26,9 @@ def test_should_return_a_404_when_delete_task_of_non_existent_task(
     petisco_client, given_any_task_id
 ):
 
-    response = petisco_client.delete(f"/taskmanager/task/{given_any_task_id}")
+    response = petisco_client.delete(f"/taskmanager/task/{given_any_task_id.value}")
 
     assert response.status_code == 404
     assert response.json == {
-        "error": {"message": "Task not found", "type": "TaskNotFoundHttpError"}
+        "error": {"message": "Task not found", "type": "TaskNotFoundError"}
     }

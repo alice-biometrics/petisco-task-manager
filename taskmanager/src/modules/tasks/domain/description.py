@@ -1,30 +1,21 @@
-from typing import Any
-
-from meiga import Result, Failure, Error, Success
+from meiga import Failure
 
 from petisco import (
-    ValueObject,
     EmptyValueObjectError,
     ExceedLengthLimitValueObjectError,
+    StringValueObject,
 )
 
 
-LENGTH = 200
+class Description(StringValueObject):
+    def guard(self):
+        self._ensure_not_empty_value()
+        self._ensure_value_is_less_than_200_char()
 
+    def _ensure_not_empty_value(self):
+        if self.value is None:
+            raise Failure(EmptyValueObjectError(self.__class__.__name__))
 
-class Description(str, ValueObject):
-    def __new__(cls, description, length=LENGTH):
-        description = None if description == "None" else description
-        cls.length = length
-        return str.__new__(cls, description)
-
-    def to_result(self) -> Result[Any, Error]:
-        description = None if self == "None" else self
-
-        if not description:
-            return Failure(EmptyValueObjectError(self.__class__.__name__))
-
-        if description is not None and len(description) > self.length:
-            return Failure(ExceedLengthLimitValueObjectError(message=description))
-        else:
-            return Success(description)
+    def _ensure_value_is_less_than_200_char(self):
+        if len(self.value) > 200:
+            raise ExceedLengthLimitValueObjectError(message=self.value)

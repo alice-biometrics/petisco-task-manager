@@ -15,12 +15,15 @@ def base_url(variables):
     not os.environ.get("END2END_TEST"),
     reason="To run end2end test, please define END2END_TEST envar",
 )
-def test_end2end(base_url, given_any_title, given_any_description):
+def test_end2end(base_url, given_any_task_id, given_any_title, given_any_description):
 
     response = requests.get(f"{base_url}/healthcheck")
     assert response.status_code == 200
 
     response = requests.get(f"{base_url}/task/invalid_id")
+    assert response.status_code == 400
+
+    response = requests.get(f"{base_url}/task/{given_any_task_id.value}")
     assert response.status_code == 404
 
     data = {"title": given_any_title, "description": given_any_description}

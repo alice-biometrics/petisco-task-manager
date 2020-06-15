@@ -23,7 +23,7 @@ from taskmanager.src.modules.tasks.infrastructure.persistence.sql_task_repositor
 
 @pytest.fixture
 def given_any_task_id() -> TaskId:
-    return TaskId("5t5qXjRuYFasoS28")
+    return TaskId("37d0e87b-582e-4ca9-9668-218ef4fed709")
 
 
 @pytest.fixture
@@ -34,9 +34,7 @@ def given_any_title() -> Title:
 @pytest.fixture
 def given_any_description() -> Description:
     return Description(
-        "New release should contain the following improvements: \n"
-        " * Performance improvement\n"
-        " * AggregateRoot utilities"
+        "New release should contain the following improvements: \n* Performance improvement\n* AggregateRoot utilities"
     )
 
 

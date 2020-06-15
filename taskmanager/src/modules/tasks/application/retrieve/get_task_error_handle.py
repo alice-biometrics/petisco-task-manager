@@ -1,19 +1,19 @@
 from meiga import Result
 from petisco.controller.errors.http_error import HttpError
+from petisco.domain.value_objects.uuid import InvalidUuidError
 
 from taskmanager.src.modules.tasks.domain.errors import TaskNotFoundError
-
-
-class TaskNotFoundHttpError(HttpError):
-    def __init__(self, message: str = "Task not found", code: int = 404):
-        self.message = message
-        self.code = code
-        super(TaskNotFoundHttpError, self).__init__(message, code)
 
 
 def get_task_error_handler(result: Result) -> HttpError:
     domain_error = result.value
     http_error = HttpError()
     if isinstance(domain_error, TaskNotFoundError):
-        http_error = TaskNotFoundHttpError()
+        http_error.message = "Task not found"
+        http_error.code = 404
+        http_error.type_error = "TaskNotFoundError"
+    elif isinstance(domain_error, InvalidUuidError):
+        http_error.message = "Invalid TaskId. TaskId must be a valid 36-char UUID"
+        http_error.code = 400
+        http_error.type_error = "InvalidTaskIdError"
     return http_error

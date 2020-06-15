@@ -33,12 +33,12 @@ def subscribe_to_dead_letter():
         },
         connection_name="dead-letter-subscriber",
     )
-    subscriber.subscribe_all()
+    subscriber.start()
 
     scheduler = BackgroundScheduler()
 
     def shutdown():
-        subscriber.unsubscribe_all()
+        subscriber.start()
         scheduler.shutdown()
 
     scheduler.add_job(func=shutdown, trigger="interval", seconds=TEN_MINUTES)

@@ -5,9 +5,9 @@ from taskmanager.src.modules.tasks.domain.task_id import TaskId
 
 class TaskAlreadyExistError(Error):
     def __init__(self, task_id: TaskId):
-        self.message = f"[task_id: {task_id:s}]"
+        self.message = f"[task_id: {task_id.value}]"
 
 
 class TaskNotFoundError(Error):
     def __init__(self, task_id: TaskId):
-        self.message = f"[task_id: {task_id:s}]"
+        self.message = f"[task_id: {task_id.value}]"

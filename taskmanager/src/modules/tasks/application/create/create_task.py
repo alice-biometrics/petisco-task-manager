@@ -1,4 +1,4 @@
-from petisco import use_case_handler, UseCase, IEventPublisher
+from petisco import use_case_handler, UseCase, IEventPublisher, Petisco
 
 from meiga import Result, Error, Success
 
@@ -14,6 +14,13 @@ from taskmanager.src.modules.tasks.domain.task_id import TaskId
 
 @use_case_handler(logging_parameters_whitelist=["task_id", "title", "description"])
 class CreateTask(UseCase):
+    @staticmethod
+    def build():
+        return CreateTask(
+            repository=Petisco.get_repository("task"),
+            publisher=Petisco.get_event_publisher(),
+        )
+
     def __init__(self, repository: ITaskRepository, publisher: IEventPublisher):
         self.repository = repository
         self.publisher = publisher

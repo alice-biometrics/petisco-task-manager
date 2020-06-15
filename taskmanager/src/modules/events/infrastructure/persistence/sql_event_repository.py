@@ -23,14 +23,14 @@ class SqlEventRepository(IEventRepository):
         with self.session_scope() as session:
             event_model = (
                 session.query(self.EventModel)
-                .filter(self.EventModel.event_id == event_id)
+                .filter(self.EventModel.event_id == event_id.value)
                 .first()
             )
             if event_model:
                 return Failure(EventAlreadyExistError(event_id))
 
             event_model = self.EventModel(
-                event_id=event_id, type=event.event_name, data=event.to_json()
+                event_id=event_id.value, type=event.event_name, data=event.to_json()
             )
 
             session.add(event_model)
@@ -40,7 +40,7 @@ class SqlEventRepository(IEventRepository):
         with self.session_scope() as session:
             event_model = (
                 session.query(self.EventModel)
-                .filter(self.EventModel.event_id == event_id)
+                .filter(self.EventModel.event_id == event_id.value)
                 .first()
             )
             if not event_model:

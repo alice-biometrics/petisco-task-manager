@@ -1,6 +1,5 @@
-from typing import Any, Dict
+from typing import Dict
 
-from meiga import Result, Error, Success
 from petisco import AggregateRoot
 from datetime import datetime
 
@@ -12,7 +11,11 @@ from taskmanager.src.modules.tasks.domain.title import Title
 
 class Task(AggregateRoot):
     def __init__(
-        self, task_id: TaskId, title: str, description: str, created_at: datetime
+        self,
+        task_id: TaskId,
+        title: Title,
+        description: Description,
+        created_at: datetime,
     ):
         self.task_id = task_id
         self.title = title
@@ -26,13 +29,10 @@ class Task(AggregateRoot):
         user.record(TaskCreated(task_id))
         return user
 
-    def to_result(self) -> Result[Any, Error]:
-        return Success(self)
-
     def to_dict(self) -> Dict:
         return {
-            "task_id": self.task_id,
-            "title": self.title,
-            "description": self.description,
+            "task_id": self.task_id.value,
+            "title": self.title.value,
+            "description": self.description.value,
             "created_at": self.created_at.isoformat(),
         }

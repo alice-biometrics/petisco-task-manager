@@ -14,19 +14,13 @@ from taskmanager.src.modules.tasks.domain.title import Title
 @controller_handler(
     logger=Petisco.get_instance().logger,
     success_handler=lambda result: (
-        {"message": "Created Task", "task_id": str(result.value)},
+        {"message": "Created Task", "task_id": result.value.value},
         200,
     ),
     error_handler=post_task_error_handler,
 )
 def post_task(body: Dict):
-
     task_id = TaskId.generate()
-    title = Title(body.get("title")).guard()
-    description = Description(body.get("description")).guard()
-    use_case = CreateTask(
-        repository=Petisco.get_repository("task"),
-        publisher=Petisco.get_event_publisher(),
-    )
-
-    return use_case.execute(task_id, title, description)
+    title = Title(body.get("title"))
+    description = Description(body.get("description"))
+    return CreateTask.build().execute(task_id, title, description)

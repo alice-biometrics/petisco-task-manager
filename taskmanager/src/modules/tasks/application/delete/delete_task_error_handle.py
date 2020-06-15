@@ -4,16 +4,11 @@ from petisco.controller.errors.http_error import HttpError
 from taskmanager.src.modules.tasks.domain.errors import TaskNotFoundError
 
 
-class TaskNotFoundHttpError(HttpError):
-    def __init__(self, message: str = "Task not found", code: int = 404):
-        self.message = message
-        self.code = code
-        super(TaskNotFoundHttpError, self).__init__(message, code)
-
-
 def delete_task_error_handler(result: Result) -> HttpError:
     domain_error = result.value
     http_error = HttpError()
     if isinstance(domain_error, TaskNotFoundError):
-        http_error = TaskNotFoundHttpError()
+        http_error.message = "Task not found"
+        http_error.code = 404
+        http_error.type_error = "TaskNotFoundError"
     return http_error
