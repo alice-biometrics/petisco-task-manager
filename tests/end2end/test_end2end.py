@@ -26,7 +26,7 @@ def test_end2end(base_url, given_any_task_id, given_any_title, given_any_descrip
     response = requests.get(f"{base_url}/task/{given_any_task_id.value}")
     assert response.status_code == 404
 
-    data = {"title": given_any_title, "description": given_any_description}
+    data = {"title": given_any_title.value, "description": given_any_description.value}
     response = requests.post(f"{base_url}/task", json=data)
     assert response.status_code == 200
     task_id = response.json()["task_id"]
