@@ -43,6 +43,7 @@ The Application is a very simple **Task Manager** with the following entry point
 
 - `POST /task`: Create a task, return a `task_id` :white_check_mark:
 - `GET /task`: Get a task from its `task_id` :white_check_mark:
+- `GET /tasks/count`: Get the number of tasks :white_check_mark:
 - `GET /events`: Get all events :white_check_mark:
 - `GET /tasks`: Get all tasks (TODO :recycle:)
 - `PUT /task/priority`: Change task priority (TODO :recycle:)
@@ -90,14 +91,17 @@ Application can be configured by *environment variables*.
   * inmemory:
     - `TASK_REPOSITORY_TYPE: inmemory`
     - `EVENT_REPOSITORY_TYPE: inmemory`
+    - `TASKS_COUNT_REPOSITORY_TYPE: inmemory`
   * sqlite:
     - `TASK_REPOSITORY_TYPE: sqlite`
     - `EVENT_REPOSITORY_TYPE: sqlite`
+    - `TASKS_COUNT_REPOSITORY_TYPE: sqlite`
     - `SQL_SERVER: sqlite`
     - `SQL_DATABASE: taskmanager_test.db`
   * mysql:
     - `TASK_REPOSITORY_TYPE: mysql`
     - `EVENT_REPOSITORY_TYPE: mysql`
+    - `TASKS_COUNT_REPOSITORY_TYPE: mysql`
     - `SQL_SERVER: mysql`
     - `SQL_DATABASE: taskmanager`
     - `MYSQL_DATABASE: taskmanager`
