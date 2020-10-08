@@ -20,7 +20,7 @@ jobs:
       max-parallel: 4
       matrix:
         os: [macOS-latest, ubuntu-latest]
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.6, 3.7]
     runs-on: ${{matrix.os}}
 
     steps:
@@ -59,4 +59,4 @@ jobs:
         lume -lint
     - name: Test
       run: |
-        lume -test
+        lume -test-with-rabbitmq

@@ -5,4 +5,5 @@ ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 
 def petisco_setup():
-    Petisco.from_filename(ROOT_PATH + "/petisco.yml")
+    petisco = Petisco.from_filename(ROOT_PATH + "/petisco.yml")
+    petisco.configure_events(ROOT_PATH + "/petisco.events.yml")

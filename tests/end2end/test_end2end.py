@@ -10,6 +10,10 @@ def base_url(variables):
     return variables["host"]
 
 
+def wait_for_event():
+    sleep(1.0)
+
+
 @pytest.mark.end2end
 @pytest.mark.skipif(
     not os.environ.get("END2END_TEST"),
@@ -31,6 +35,8 @@ def test_end2end(base_url, given_any_task_id, given_any_title, given_any_descrip
     assert response.status_code == 200
     task_id = response.json()["task_id"]
 
+    assert_task_count_is_equal_to(1, base_url)
+
     response = requests.get(f"{base_url}/task/{task_id}")
     assert response.status_code == 200
 
@@ -39,13 +45,24 @@ def test_end2end(base_url, given_any_task_id, given_any_title, given_any_descrip
     assert response.status_code == 200
     task_id_to_delete = response.json()["task_id"]
 
+    assert_task_count_is_equal_to(2, base_url)
+
     response = requests.delete(f"{base_url}/task/{task_id_to_delete}")
     assert response.status_code == 200
 
-    sleep(5.0)
+    assert_task_count_is_equal_to(1, base_url)
+
+    wait_for_event()
 
     response_events = requests.get(f"{base_url}/events")
 
     assert response_events.status_code == 200
     events = response_events.json().get("events")
     assert len(events) >= 1
+
+
+def assert_task_count_is_equal_to(tasks_count: int, base_url: str):
+    wait_for_event()
+    response = requests.get(f"{base_url}/tasks/count")
+    assert response.status_code == 200
+    assert response.json() == {"tasks_count": tasks_count}

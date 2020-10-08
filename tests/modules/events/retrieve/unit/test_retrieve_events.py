@@ -4,7 +4,7 @@ from meiga import Success, isFailure
 from unittest.mock import Mock
 
 from meiga.assertions import assert_success, assert_failure
-from petisco.events.publisher.domain.interface_event_publisher import IEventPublisher
+from petisco import IEventPublisher
 
 from taskmanager.src.modules.events.application.retrieve.events_retriever import (
     EventsRetriever,

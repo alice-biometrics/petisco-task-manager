@@ -7,6 +7,7 @@ __pycache__/
 *.so
 *.jar
 *.log.*
+.compose
 
 output/
 

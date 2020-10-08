@@ -40,6 +40,20 @@ paths:
           description: Access token or API key is missing or invalid.
         500:
           description: Unexpected Error obtaining environment info
+  /tasks/count:
+    get:
+      summary: Get Tasks count
+      operationId: taskmanager.src.modules.tasks_count.application.get_tasks_count.get_tasks_count
+      responses:
+        200:
+          description: The information has been returned.
+          content:
+            application/json:
+              schema:
+                type: string
+        401:
+          description: Access token or API key is missing or invalid.
+
   /task:
     post:
       summary: Add a new task to the application

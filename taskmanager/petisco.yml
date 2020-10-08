@@ -26,10 +26,13 @@ logger:
     format: "%(name)s - %(levelname)s - %(message)s"
     config: taskmanager.src.config.logging.logging_config
 persistence:
-  config: taskmanager.src.config.persistence.config_persistence
-  models:
-    task: taskmanager.src.modules.tasks.infrastructure.persistence.models.task_model.TaskModel
-    event: taskmanager.src.modules.events.infrastructure.persistence.models.event_model.EventModel
+  - name: petisco
+    type: sql
+    config: taskmanager.src.config.persistence.config_persistence
+    models:
+      task: taskmanager.src.modules.tasks.infrastructure.persistence.models.task_model.TaskModel
+      event: taskmanager.src.modules.events.infrastructure.persistence.models.event_model.EventModel
+      tasks_count: taskmanager.src.modules.tasks_count.infrastructure.tasks_count_model.TasksCountModel
 providers:
    services_provider: taskmanager.src.config.services.services_provider
    repositories_provider: taskmanager.src.config.repositories.repositories_provider

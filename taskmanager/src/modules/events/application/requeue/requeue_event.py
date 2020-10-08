@@ -4,10 +4,10 @@ from petisco import (
     Event,
     Petisco,
     RabbitMQEventSubscriber,
-    RabbitMQConnector,
+    RabbitMqConnector,
     ConfigEventSubscriber,
+    subscriber_handler,
 )
-from petisco.events.subscriber.domain.subscriber_handler import subscriber_handler
 
 TEN_MINUTES = 600  # seconds
 
@@ -21,7 +21,7 @@ def requeue_from_dead_letter(event: Event):
 
 def subscribe_to_dead_letter():
     subscriber = RabbitMQEventSubscriber(
-        connector=RabbitMQConnector(),
+        connector=RabbitMqConnector(),
         subscribers={
             "dead-letter": ConfigEventSubscriber(
                 organization="acme",
