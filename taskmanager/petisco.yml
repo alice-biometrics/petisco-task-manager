@@ -48,6 +48,6 @@ events:
         service: taskmanager
         topic: taskmanager-events
         dead_letter: True
-        handler: taskmanager.src.modules.events.application.store.event_store.event_store
+        handler: taskmanager.src.modules.events.application.store.event_store.legacy_event_store
 notifier:
   provider: taskmanager.src.config.notifier.notifier_provider

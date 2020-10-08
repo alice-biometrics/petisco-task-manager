@@ -1,4 +1,4 @@
-from petisco import use_case_handler, UseCase, Event
+from petisco import use_case_handler, UseCase, Event, Petisco
 
 from meiga import Result, Error, isSuccess
 
@@ -9,6 +9,10 @@ from taskmanager.src.modules.events.domain.interface_event_repository import (
 
 @use_case_handler()
 class EventStorer(UseCase):
+    @staticmethod
+    def build():
+        return EventStorer(repository=Petisco.get_repository("event"))
+
     def __init__(self, repository: IEventRepository):
         self.repository = repository
 

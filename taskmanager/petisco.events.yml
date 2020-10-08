@@ -11,7 +11,5 @@ events:
     TaskRemoved:
       version: 1
       handlers: taskmanager.src.modules.tasks_count.application.update_task_counter_on_task_removed.update_task_counter_on_task_removed
-#queues:
-#  store: taskmanager.src.modules.events.application.store.event_store.event_store
-
-
+queues:
+  store: taskmanager.src.modules.events.application.store.event_store.event_store

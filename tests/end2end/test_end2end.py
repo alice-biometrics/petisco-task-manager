@@ -3,6 +3,7 @@ from time import sleep
 
 import pytest
 import requests
+from petisco import Event
 
 
 @pytest.fixture
@@ -52,13 +53,23 @@ def test_end2end(base_url, given_any_task_id, given_any_title, given_any_descrip
 
     assert_task_count_is_equal_to(1, base_url)
 
+    assert_recorded_events(base_url)
+
+
+def assert_recorded_events(base_url):
     wait_for_event()
-
     response_events = requests.get(f"{base_url}/events")
-
     assert response_events.status_code == 200
     events = response_events.json().get("events")
-    assert len(events) >= 1
+    event_names = [Event.from_dict(event).event_name for event in events]
+    expected_event_names = [
+        "service.deployed",
+        "task.created",
+        "task.retrieved",
+        "task.created",
+        "task.removed",
+    ]
+    assert sorted(expected_event_names) == sorted(event_names)
 
 
 def assert_task_count_is_equal_to(tasks_count: int, base_url: str):
