@@ -23,7 +23,7 @@ class SqlTaskRepository(ITaskRepository):
         return {"name": self.__class__.__name__}
 
     def save(self, task_id: TaskId, task: Task) -> Result[bool, Error]:
-        with self.session_scope() as session:
+        with self.session_scope("petisco") as session:
             task_model = (
                 session.query(self.TaskModel)
                 .filter(self.TaskModel.task_id == task_id.value)
@@ -43,7 +43,7 @@ class SqlTaskRepository(ITaskRepository):
             return isSuccess
 
     def retrieve(self, task_id: TaskId) -> Result[Task, Error]:
-        with self.session_scope() as session:
+        with self.session_scope("petisco") as session:
             task_model = (
                 session.query(self.TaskModel)
                 .filter(self.TaskModel.task_id == task_id.value)
@@ -62,7 +62,7 @@ class SqlTaskRepository(ITaskRepository):
             return Success(task)
 
     def remove(self, task_id: TaskId) -> Result[Task, Error]:
-        with self.session_scope() as session:
+        with self.session_scope("petisco") as session:
             task_model = (
                 session.query(self.TaskModel)
                 .filter(self.TaskModel.task_id == task_id.value)

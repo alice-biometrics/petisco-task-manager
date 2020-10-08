@@ -20,7 +20,7 @@ class SqlEventRepository(IEventRepository):
         return {"name": self.__class__.__name__}
 
     def save(self, event_id: EventId, event: Event) -> Result[bool, Error]:
-        with self.session_scope() as session:
+        with self.session_scope("petisco") as session:
             event_model = (
                 session.query(self.EventModel)
                 .filter(self.EventModel.event_id == event_id.value)
@@ -32,12 +32,11 @@ class SqlEventRepository(IEventRepository):
             event_model = self.EventModel(
                 event_id=event_id.value, type=event.event_name, data=event.to_json()
             )
-
             session.add(event_model)
             return isSuccess
 
     def retrieve(self, event_id: EventId) -> Result[Event, Error]:
-        with self.session_scope() as session:
+        with self.session_scope("petisco") as session:
             event_model = (
                 session.query(self.EventModel)
                 .filter(self.EventModel.event_id == event_id.value)
@@ -51,7 +50,7 @@ class SqlEventRepository(IEventRepository):
             return Success(event)
 
     def retrieve_all(self) -> Result[Events, Error]:
-        with self.session_scope() as session:
+        with self.session_scope("petisco") as session:
             event_models = session.query(self.EventModel).all()
             events: Events = []
             if event_models:

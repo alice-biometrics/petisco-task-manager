@@ -1,6 +1,7 @@
-from petisco import use_case_handler, UseCase, IEventPublisher, Petisco
+from petisco import use_case_handler, UseCase, Petisco
 
 from meiga import Result, Error, Success
+from petisco.event.bus.domain.interface_event_bus import IEventBus
 
 from taskmanager.src.modules.tasks.domain.description import Description
 from taskmanager.src.modules.tasks.domain.title import Title
@@ -17,18 +18,17 @@ class CreateTask(UseCase):
     @staticmethod
     def build():
         return CreateTask(
-            repository=Petisco.get_repository("task"),
-            publisher=Petisco.get_event_publisher(),
+            repository=Petisco.get_repository("task"), bus=Petisco.get_event_bus()
         )
 
-    def __init__(self, repository: ITaskRepository, publisher: IEventPublisher):
+    def __init__(self, repository: ITaskRepository, bus: IEventBus):
         self.repository = repository
-        self.publisher = publisher
+        self.bus = bus
 
     def execute(
         self, task_id: TaskId, title: Title, description: Description
     ) -> Result[TaskId, Error]:
         task = Task.create(task_id, title, description)
         self.repository.save(task_id, task).unwrap_or_return()
-        self.publisher.publish_events(task.pull_domain_events())
+        self.bus.publish_events(task.pull_domain_events())
         return Success(task_id)

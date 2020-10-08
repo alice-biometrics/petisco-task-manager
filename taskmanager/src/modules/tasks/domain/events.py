@@ -8,7 +8,6 @@ class TaskCreated(Event):
 
     def __init__(self, task_id: TaskId):
         self.task_id = str(task_id)
-        self.event_version = "1"
         super().__init__()
 
 
@@ -17,7 +16,6 @@ class TaskRemoved(Event):
 
     def __init__(self, task_id: TaskId):
         self.task_id = str(task_id)
-        self.event_version = "1"
         super().__init__()
 
 
@@ -26,5 +24,4 @@ class TaskRetrieved(Event):
 
     def __init__(self, task_id: TaskId):
         self.task_id = str(task_id)
-        self.event_version = "1"
         super().__init__()

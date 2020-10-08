@@ -1,6 +1,7 @@
-from petisco import use_case_handler, UseCase, IEventPublisher, Petisco
+from petisco import use_case_handler, UseCase, Petisco
 
 from meiga import Result, Error, isSuccess
+from petisco.event.bus.domain.interface_event_bus import IEventBus
 
 from taskmanager.src.modules.tasks.domain.events import TaskRemoved
 from taskmanager.src.modules.tasks.domain.interface_task_repository import (
@@ -14,15 +15,14 @@ class TaskRemover(UseCase):
     @staticmethod
     def build():
         return TaskRemover(
-            repository=Petisco.get_repository("task"),
-            publisher=Petisco.get_event_publisher(),
+            repository=Petisco.get_repository("task"), bus=Petisco.get_event_bus()
         )
 
-    def __init__(self, repository: ITaskRepository, publisher: IEventPublisher):
+    def __init__(self, repository: ITaskRepository, bus: IEventBus):
         self.repository = repository
-        self.publisher = publisher
+        self.bus = bus
 
     def execute(self, task_id: TaskId) -> Result[bool, Error]:
         self.repository.remove(task_id).unwrap_or_return()
-        self.publisher.publish(TaskRemoved(task_id))
+        self.bus.publish(TaskRemoved(task_id))
         return isSuccess

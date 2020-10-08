@@ -16,6 +16,7 @@ services:
       - RABBITMQ_HOST
       - GUNICORN_WORKERS
       - TASK_REPOSITORY_TYPE
+      - TASKS_COUNT_REPOSITORY_TYPE
       - EVENT_REPOSITORY_TYPE
       - SQL_SERVER
       - MYSQL_DATABASE
@@ -34,6 +35,8 @@ services:
   mysql:
     image: mysql:5.7
     container_name: mysql-taskmanager
+    volumes:
+      - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER

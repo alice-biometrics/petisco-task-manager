@@ -21,12 +21,22 @@ from taskmanager.src.modules.tasks.infrastructure.persistence.inmemory_task_repo
 from taskmanager.src.modules.tasks.infrastructure.persistence.sql_task_repository import (
     SqlTaskRepository,
 )
+from taskmanager.src.modules.tasks_count.domain.interface_tasks_count_repository import (
+    ITasksCountRepository,
+)
+from taskmanager.src.modules.tasks_count.infrastructure.inmemory_tasks_count_repository import (
+    InMemoryTasksCountRepository,
+)
+from taskmanager.src.modules.tasks_count.infrastructure.sql_tasks_count_repository import (
+    SqlTasksCountCountRepository,
+)
 
 
 def repositories_provider() -> Dict[str, IRepository]:
     return {
         "task": get_config_task_repository(),
         "event": get_config_event_repository(),
+        "tasks_count": get_config_tasks_count_repository(),
     }
 
 
@@ -36,7 +46,7 @@ def get_config_task_repository() -> ITaskRepository:
     if task_repository_type == "sqlite" or task_repository_type == "mysql":
         task_repository = SqlTaskRepository(
             session_scope=Petisco.persistence_session_scope(),
-            task_model=Petisco.get_persistence_model("task"),
+            task_model=Petisco.get_persistence_model("petisco", "task"),
         )
     return task_repository
 
@@ -47,6 +57,17 @@ def get_config_event_repository() -> IEventRepository:
     if event_repository_type == "sqlite" or event_repository_type == "mysql":
         event_repository = SqlEventRepository(
             session_scope=Petisco.persistence_session_scope(),
-            event_model=Petisco.get_persistence_model("event"),
+            event_model=Petisco.get_persistence_model("petisco", "event"),
         )
     return event_repository
+
+
+def get_config_tasks_count_repository() -> ITasksCountRepository:
+    task_repository_type = os.environ.get("TASKS_COUNT_REPOSITORY_TYPE")
+    tasks_count_repository = InMemoryTasksCountRepository()
+    if task_repository_type == "sqlite" or task_repository_type == "mysql":
+        tasks_count_repository = SqlTasksCountCountRepository(
+            session_scope=Petisco.persistence_session_scope(),
+            tasks_count_model=Petisco.get_persistence_model("petisco", "tasks_count"),
+        )
+    return tasks_count_repository
