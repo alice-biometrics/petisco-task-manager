@@ -12,7 +12,7 @@ from petisco import (
 TEN_MINUTES = 600  # seconds
 
 
-@subscriber_handler(logger=Petisco.get_instance().logger)
+@subscriber_handler()
 def requeue_from_dead_letter(event: Event):
     publisher = Petisco.get_event_publisher()
     publisher.publish(event)

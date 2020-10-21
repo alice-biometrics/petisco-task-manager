@@ -1,10 +1,10 @@
 from meiga import BoolResult
-from petisco import Petisco, Event, subscriber_handler, event_handler
+from petisco import Event, subscriber_handler, event_handler
 
 from taskmanager.src.modules.events.application.store.event_storer import EventStorer
 
 
-@subscriber_handler(logger=Petisco.get_instance().logger)
+@subscriber_handler()
 def legacy_event_store(event: Event):
     return EventStorer.build().execute(event)
 

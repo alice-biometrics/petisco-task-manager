@@ -1,6 +1,6 @@
 from typing import Dict
 
-from petisco import controller_handler, Petisco
+from petisco import controller_handler
 
 from taskmanager.src.modules.tasks.application.create.create_task import CreateTask
 from taskmanager.src.modules.tasks.application.create.post_task_error_handler import (
@@ -12,7 +12,6 @@ from taskmanager.src.modules.tasks.domain.title import Title
 
 
 @controller_handler(
-    logger=Petisco.get_instance().logger,
     success_handler=lambda result: (
         {"message": "Created Task", "task_id": result.value.value},
         200,

@@ -1,4 +1,4 @@
-from petisco import controller_handler, Petisco
+from petisco import controller_handler
 
 from taskmanager.src.modules.tasks.application.delete.delete_task_error_handle import (
     delete_task_error_handler,
@@ -8,7 +8,6 @@ from taskmanager.src.modules.tasks.domain.task_id import TaskId
 
 
 @controller_handler(
-    logger=Petisco.get_instance().logger,
     success_handler=lambda result: ({"message": "Task deleted"}, 200),
     error_handler=delete_task_error_handler,
 )
