@@ -11,9 +11,7 @@ def success_handler(result: Result):
     return {"events": events}, 200
 
 
-@controller_handler(
-    logger=Petisco.get_instance().logger, success_handler=success_handler
-)
+@controller_handler(logger=Petisco.get_logger(), success_handler=success_handler)
 def get_events():
     use_case = EventsRetriever(
         repository=Petisco.get_repository("event"),

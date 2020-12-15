@@ -2,19 +2,19 @@ app:
   name: taskmanager
   version:
     from_file: VERSION
-tasks:
-  dead-letter:
-    seconds: 21600 # (seconds) 6 hours
-    handler: taskmanager.src.modules.events.application.requeue.requeue_event.subscribe_to_dead_letter
-  recurring-task:
-    run_in: 20 # (seconds)
-    interval: 10 # (seconds)
-    handler: taskmanager.src.modules.dummy.tasks.recurring_task
-  scheduled-task:
-    run_in: 10 # (seconds)
-    handler: taskmanager.src.modules.dummy.tasks.scheduled_task
-  instant-task:
-    handler: taskmanager.src.modules.dummy.tasks.instant_task
+#tasks:
+#  dead-letter:
+#    seconds: 21600 # (seconds) 6 hours
+#    handler: taskmanager.src.modules.events.application.requeue.requeue_event.subscribe_to_dead_letter
+#  recurring-task:
+#    run_in: 20 # (seconds)
+#    interval: 10 # (seconds)
+#    handler: taskmanager.src.modules.dummy.tasks.recurring_task
+#  scheduled-task:
+#    run_in: 10 # (seconds)
+#    handler: taskmanager.src.modules.dummy.tasks.scheduled_task
+#  instant-task:
+#    handler: taskmanager.src.modules.dummy.tasks.instant_task
 framework:
     selected_framework: flask
     config_file: swagger.yaml
@@ -25,29 +25,29 @@ logger:
     name: petisco
     format: "%(name)s - %(levelname)s - %(message)s"
     config: taskmanager.src.config.logging.logging_config
-persistence:
-  - name: petisco
-    type: sql
-    config: taskmanager.src.config.persistence.config_persistence
-    models:
-      task: taskmanager.src.modules.tasks.infrastructure.persistence.models.task_model.TaskModel
-      event: taskmanager.src.modules.events.infrastructure.persistence.models.event_model.EventModel
-      tasks_count: taskmanager.src.modules.tasks_count.infrastructure.tasks_count_model.TasksCountModel
+#persistence:
+#  - name: petisco
+#    type: sql
+#    config: taskmanager.src.config.persistence.config_persistence
+#    models:
+#      task: taskmanager.src.modules.tasks.infrastructure.persistence.models.task_model.TaskModel
+#      event: taskmanager.src.modules.events.infrastructure.persistence.models.event_model.EventModel
+#      tasks_count: taskmanager.src.modules.tasks_count.infrastructure.tasks_count_model.TasksCountModel
 providers:
    services_provider: taskmanager.src.config.services.services_provider
    repositories_provider: taskmanager.src.config.repositories.repositories_provider
-events:
-  publish_deploy_event: True
-  publisher:
-    provider: taskmanager.src.config.events.publisher_provider
-  subscriber:
-    provider: taskmanager.src.config.events.subscriber_provider
-    subscribers:
-      store-event:
-        organization: acme
-        service: taskmanager
-        topic: taskmanager-events
-        dead_letter: True
-        handler: taskmanager.src.modules.events.application.store.event_store.legacy_event_store
+#events:
+#  publish_deploy_event: False
+#  publisher:
+#    provider: taskmanager.src.config.events.publisher_provider
+#  subscriber:
+#    provider: taskmanager.src.config.events.subscriber_provider
+#    subscribers:
+#      store-event:
+#        organization: acme
+#        service: taskmanager
+#        topic: taskmanager-events
+#        dead_letter: True
+#        handler: taskmanager.src.modules.events.application.store.event_store.legacy_event_store
 notifier:
   provider: taskmanager.src.config.notifier.notifier_provider

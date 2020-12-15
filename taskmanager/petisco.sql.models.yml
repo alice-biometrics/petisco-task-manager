@@ -1,0 +1,4 @@
+models:
+  task: taskmanager.src.modules.tasks.infrastructure.persistence.models.task_model.TaskModel
+  event: taskmanager.src.modules.events.infrastructure.persistence.models.event_model.EventModel
+  tasks_count: taskmanager.src.modules.tasks_count.infrastructure.tasks_count_model.TasksCountModel

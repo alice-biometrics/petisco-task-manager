@@ -1,6 +1,6 @@
-from typing import Dict, Callable
+from typing import Callable
 from meiga import Result, Error, isSuccess, Failure, Success
-from petisco import EventId, Event, Events
+from petisco import EventId, Event, Events, Persistence
 
 from taskmanager.src.modules.events.domain.errors import (
     EventAlreadyExistError,
@@ -12,15 +12,19 @@ from taskmanager.src.modules.events.domain.interface_event_repository import (
 
 
 class SqlEventRepository(IEventRepository):
+    @staticmethod
+    def build():
+        return SqlEventRepository(
+            session_scope=Persistence.get_session_scope("taskmanager"),
+            event_model=Persistence.get_model("taskmanager", "event"),
+        )
+
     def __init__(self, session_scope: Callable, event_model):
         self.session_scope = session_scope
         self.EventModel = event_model
 
-    def info(self) -> Dict:
-        return {"name": self.__class__.__name__}
-
     def save(self, event_id: EventId, event: Event) -> Result[bool, Error]:
-        with self.session_scope("petisco") as session:
+        with self.session_scope() as session:
             event_model = (
                 session.query(self.EventModel)
                 .filter(self.EventModel.event_id == event_id.value)
@@ -36,7 +40,7 @@ class SqlEventRepository(IEventRepository):
             return isSuccess
 
     def retrieve(self, event_id: EventId) -> Result[Event, Error]:
-        with self.session_scope("petisco") as session:
+        with self.session_scope() as session:
             event_model = (
                 session.query(self.EventModel)
                 .filter(self.EventModel.event_id == event_id.value)
@@ -50,7 +54,7 @@ class SqlEventRepository(IEventRepository):
             return Success(event)
 
     def retrieve_all(self) -> Result[Events, Error]:
-        with self.session_scope("petisco") as session:
+        with self.session_scope() as session:
             event_models = session.query(self.EventModel).all()
             events: Events = []
             if event_models:

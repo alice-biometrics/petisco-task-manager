@@ -1,5 +1,6 @@
-from typing import Dict, Callable
+from typing import Callable
 from meiga import Result, Error, isSuccess, Failure, Success
+from petisco.persistence.persistence import Persistence
 
 from taskmanager.src.modules.tasks.domain.description import Description
 from taskmanager.src.modules.tasks.domain.errors import (
@@ -15,15 +16,19 @@ from taskmanager.src.modules.tasks.domain.title import Title
 
 
 class SqlTaskRepository(ITaskRepository):
+    @staticmethod
+    def build():
+        return SqlTaskRepository(
+            session_scope=Persistence.get_session_scope("taskmanager"),
+            task_model=Persistence.get_model("taskmanager", "task"),
+        )
+
     def __init__(self, session_scope: Callable, task_model):
         self.session_scope = session_scope
         self.TaskModel = task_model
 
-    def info(self) -> Dict:
-        return {"name": self.__class__.__name__}
-
     def save(self, task_id: TaskId, task: Task) -> Result[bool, Error]:
-        with self.session_scope("petisco") as session:
+        with self.session_scope() as session:
             task_model = (
                 session.query(self.TaskModel)
                 .filter(self.TaskModel.task_id == task_id.value)
@@ -43,7 +48,7 @@ class SqlTaskRepository(ITaskRepository):
             return isSuccess
 
     def retrieve(self, task_id: TaskId) -> Result[Task, Error]:
-        with self.session_scope("petisco") as session:
+        with self.session_scope() as session:
             task_model = (
                 session.query(self.TaskModel)
                 .filter(self.TaskModel.task_id == task_id.value)
@@ -62,7 +67,7 @@ class SqlTaskRepository(ITaskRepository):
             return Success(task)
 
     def remove(self, task_id: TaskId) -> Result[Task, Error]:
-        with self.session_scope("petisco") as session:
+        with self.session_scope() as session:
             task_model = (
                 session.query(self.TaskModel)
                 .filter(self.TaskModel.task_id == task_id.value)

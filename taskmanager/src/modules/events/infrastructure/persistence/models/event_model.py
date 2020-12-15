@@ -1,7 +1,7 @@
-from petisco.persistence.sqlalchemy.sqlalchemy_persistence import SqlAlchemyPersistence
+from petisco.persistence.persistence import Persistence
 from sqlalchemy import Column, Integer, String, JSON
 
-Base = SqlAlchemyPersistence.get_instance().sources["petisco"]["base"]
+Base = Persistence.get_base("taskmanager")
 
 
 class EventModel(Base):

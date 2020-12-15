@@ -7,7 +7,7 @@ from taskmanager.src.modules.tasks.domain.errors import TaskAlreadyExistError
 
 @pytest.mark.integration
 def test_should_save_task_successfully(
-    petisco_sql_database,
+    taskmanager_sql_database,
     given_empty_sql_task_repository,
     given_any_task_id,
     given_any_task,
@@ -21,7 +21,7 @@ def test_should_save_task_successfully(
 
 @pytest.mark.integration
 def test_should_fail_when_save_task_when_already_exist_the_task(
-    petisco_sql_database,
+    taskmanager_sql_database,
     given_a_sql_task_repository_with_a_task,
     given_any_task_id,
     given_any_task,

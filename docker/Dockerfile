@@ -3,6 +3,7 @@ COPY requirements/requirements.txt /requirements.txt
 RUN apt-get update \
   && apt-get install -qq -y --no-install-recommends build-essential libffi-dev libssl-dev libglib2.0-0 libsm6 libxext6 libxrender-dev \
   && apt-get autoremove \
+  && pip install pip==20.2.4 \
   && pip install --user -r /requirements.txt
 
 FROM python:3.6-slim as app

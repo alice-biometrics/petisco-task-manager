@@ -4,7 +4,7 @@ import pytest
 
 from datetime import datetime
 
-from petisco import Petisco, Events
+from petisco import Petisco, Events, Persistence
 
 from taskmanager.src.modules.events.infrastructure.persistence.sql_event_repository import (
     SqlEventRepository,
@@ -29,7 +29,17 @@ def petisco_yml_path_flask_app():
 
 
 @pytest.fixture
-def petisco_client_flask_app(petisco_sql_database):
+def taskmanager_sql_database():
+    persistence = Persistence()
+    persistence.create()
+
+    yield
+
+    persistence.delete()
+
+
+@pytest.fixture
+def petisco_client_flask_app(taskmanager_sql_database):
     app = Petisco.get_instance().get_app()
     with app.app.test_client() as c:
         yield c
@@ -65,11 +75,7 @@ def given_any_task(given_any_task_id, given_any_title, given_any_description) ->
 
 @pytest.fixture
 def given_empty_sql_task_repository():
-    repository = SqlTaskRepository(
-        session_scope=Petisco.persistence_session_scope(),
-        task_model=Petisco.get_persistence_model("petisco", "task"),
-    )
-    return repository
+    return SqlTaskRepository.build()
 
 
 @pytest.fixture
@@ -83,11 +89,7 @@ def given_a_sql_task_repository_with_a_task(
 
 @pytest.fixture
 def given_empty_sql_event_repository():
-    repository = SqlEventRepository(
-        session_scope=Petisco.persistence_session_scope(),
-        event_model=Petisco.get_persistence_model("petisco", "event"),
-    )
-    return repository
+    return SqlEventRepository.build()
 
 
 @pytest.fixture

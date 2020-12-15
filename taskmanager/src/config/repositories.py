@@ -1,7 +1,7 @@
 import os
 from typing import Dict
 
-from petisco import IRepository, Petisco
+from petisco import IRepository
 
 from taskmanager.src.modules.events.domain.interface_event_repository import (
     IEventRepository,
@@ -44,10 +44,7 @@ def get_config_task_repository() -> ITaskRepository:
     task_repository_type = os.environ.get("TASK_REPOSITORY_TYPE")
     task_repository = InMemoryTaskRepository()
     if task_repository_type == "sqlite" or task_repository_type == "mysql":
-        task_repository = SqlTaskRepository(
-            session_scope=Petisco.persistence_session_scope(),
-            task_model=Petisco.get_persistence_model("petisco", "task"),
-        )
+        task_repository = SqlTaskRepository.build()
     return task_repository
 
 
@@ -55,10 +52,7 @@ def get_config_event_repository() -> IEventRepository:
     event_repository_type = os.environ.get("EVENT_REPOSITORY_TYPE")
     event_repository = InMemoryEventRepository()
     if event_repository_type == "sqlite" or event_repository_type == "mysql":
-        event_repository = SqlEventRepository(
-            session_scope=Petisco.persistence_session_scope(),
-            event_model=Petisco.get_persistence_model("petisco", "event"),
-        )
+        event_repository = SqlEventRepository.build()
     return event_repository
 
 
@@ -66,8 +60,5 @@ def get_config_tasks_count_repository() -> ITasksCountRepository:
     task_repository_type = os.environ.get("TASKS_COUNT_REPOSITORY_TYPE")
     tasks_count_repository = InMemoryTasksCountRepository()
     if task_repository_type == "sqlite" or task_repository_type == "mysql":
-        tasks_count_repository = SqlTasksCountCountRepository(
-            session_scope=Petisco.persistence_session_scope(),
-            tasks_count_model=Petisco.get_persistence_model("petisco", "tasks_count"),
-        )
+        tasks_count_repository = SqlTasksCountCountRepository.build()
     return tasks_count_repository

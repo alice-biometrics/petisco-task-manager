@@ -40,7 +40,6 @@ def test_end2end(base_url, given_any_task_id, given_any_title, given_any_descrip
 
     response = requests.get(f"{base_url}/task/{task_id}")
     assert response.status_code == 200
-
     data_to_delete = {"title": "Deleteme", "description": "Deleteme"}
     response = requests.post(f"{base_url}/task", json=data_to_delete)
     assert response.status_code == 200
@@ -58,10 +57,12 @@ def test_end2end(base_url, given_any_task_id, given_any_title, given_any_descrip
 
 def assert_recorded_events(base_url):
     wait_for_event()
+
     response_events = requests.get(f"{base_url}/events")
     assert response_events.status_code == 200
     events = response_events.json().get("events")
     event_names = [Event.from_dict(event).event_name for event in events]
+
     expected_event_names = [
         "service.deployed",
         "task.created",

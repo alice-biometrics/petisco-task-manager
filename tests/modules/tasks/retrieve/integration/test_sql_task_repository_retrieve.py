@@ -8,7 +8,7 @@ from taskmanager.src.modules.tasks.domain.task import Task
 
 @pytest.mark.integration
 def test_should_retrieve_task_successfully(
-    petisco_sql_database, given_a_sql_task_repository_with_a_task, given_any_task_id
+    taskmanager_sql_database, given_a_sql_task_repository_with_a_task, given_any_task_id
 ):
     repository = given_a_sql_task_repository_with_a_task
 
@@ -19,7 +19,7 @@ def test_should_retrieve_task_successfully(
 
 @pytest.mark.integration
 def test_should_fail_when_retrieve_task_when_task_is_not_found(
-    petisco_sql_database, given_empty_sql_task_repository, given_any_task_id
+    taskmanager_sql_database, given_empty_sql_task_repository, given_any_task_id
 ):
     repository = given_empty_sql_task_repository
 
