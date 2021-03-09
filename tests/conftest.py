@@ -3,7 +3,8 @@ import pytest
 
 from tests.modules.fixtures import *
 from petisco.fixtures import *
-
+from petisco.persistence.sql.sqlite.sqlite_connection import SqliteConnection
+from petisco.persistence.sql.sqlite.sqlite_database import SqliteDatabase
 
 ROOT_PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
