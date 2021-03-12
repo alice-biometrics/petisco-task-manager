@@ -1,4 +1,4 @@
-from petisco import use_case_handler, UseCase, Petisco, IEventBus
+from petisco import use_case_handler, UseCase, Petisco, IEventBus, Repositories
 
 from meiga import Result, Error, Success
 
@@ -15,7 +15,7 @@ class TaskRetriever(UseCase):
     @staticmethod
     def build():
         return TaskRetriever(
-            repository=Petisco.get_repository("task"), bus=Petisco.get_event_bus()
+            repository=Repositories.get("task"), bus=Petisco.get_event_bus()
         )
 
     def __init__(self, repository: ITaskRepository, bus: IEventBus):
