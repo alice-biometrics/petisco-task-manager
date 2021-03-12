@@ -3,16 +3,17 @@ import pytest
 
 from tests.modules.fixtures import *
 from petisco.fixtures import *
+from petisco.persistence.sql.sqlite.sqlite_connection import SqliteConnection
+from petisco.persistence.sql.sqlite.sqlite_database import SqliteDatabase
+
+ROOT_PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 
 def test_persistence_setup():
-    ROOT_PATH = (
-        "/Users/acosta/Software/alice/open_source/petisco-task-manager/taskmanager"
-    )
     sql_database = SqliteDatabase(
         name="taskmanager",
         connection=SqliteConnection.create("sqlite", "tasmanager.db"),
-        model_filename=f"{ROOT_PATH}/petisco.sql.models.yml",
+        model_filename=f"{ROOT_PATH}/taskmanager/petisco.sql.models.yml",
     )
     persistence = Persistence()
     persistence.add(sql_database)
