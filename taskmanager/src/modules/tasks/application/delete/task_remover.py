@@ -1,4 +1,4 @@
-from petisco import use_case_handler, UseCase, Petisco
+from petisco import use_case_handler, UseCase, Petisco, Repositories
 
 from meiga import Result, Error, isSuccess
 from petisco.event.bus.domain.interface_event_bus import IEventBus
@@ -15,7 +15,7 @@ class TaskRemover(UseCase):
     @staticmethod
     def build():
         return TaskRemover(
-            repository=Petisco.get_repository("task"), bus=Petisco.get_event_bus()
+            repository=Repositories.get("task"), bus=Petisco.get_event_bus()
         )
 
     def __init__(self, repository: ITaskRepository, bus: IEventBus):

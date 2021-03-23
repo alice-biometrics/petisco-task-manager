@@ -3,5 +3,5 @@ from typing import Dict
 from petisco import IService
 
 
-def services_provider() -> Dict[str, IService]:
+def app_services_provider() -> Dict[str, IService]:
     return {}

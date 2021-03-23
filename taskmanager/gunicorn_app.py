@@ -1,6 +1,7 @@
-from taskmanager import petisco_setup, persistence_setup
 from petisco import Petisco
 
-petisco_setup()
-persistence_setup()
+from taskmanager.petisco_loader import load
+
+load()
+
 app = Petisco.get_instance().get_app()

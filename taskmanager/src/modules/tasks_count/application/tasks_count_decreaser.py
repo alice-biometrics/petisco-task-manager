@@ -1,6 +1,6 @@
 from meiga import Result, Error
 
-from petisco import UseCase, use_case_handler, Petisco
+from petisco import UseCase, use_case_handler, Repositories
 
 from taskmanager.src.modules.tasks_count.domain.interface_tasks_count_repository import (
     ITasksCountRepository,
@@ -11,7 +11,7 @@ from taskmanager.src.modules.tasks_count.domain.interface_tasks_count_repository
 class TasksCountDecreaser(UseCase):
     @staticmethod
     def build():
-        return TasksCountDecreaser(repository=Petisco.get_repository("tasks_count"))
+        return TasksCountDecreaser(repository=Repositories.get("tasks_count"))
 
     def __init__(self, repository: ITasksCountRepository):
         self.repository = repository

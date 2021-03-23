@@ -1,11 +1,15 @@
+import os
+
 from petisco import Petisco
 
-from taskmanager import petisco_setup, persistence_setup
+from taskmanager.petisco_loader import load
 
 
 def main():
-    petisco_setup()
-    persistence_setup()
+    if not os.getenv("END2END_TEST"):
+        load(testing=True)
+    else:
+        load()
     Petisco.get_instance().get_app()
     Petisco.get_instance().start()
 
