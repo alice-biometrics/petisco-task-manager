@@ -67,6 +67,7 @@ steps:
     run: pytest -c pytest.end2end.ini --variables tests/end2end/envs/local.yml
     teardown:
       - docker-compose logs taskmanager > taskmanager.docker.compose.log
+      - docker exec -u root mysql-taskmanager chmod 777 -R /var/lib/mysql
       - docker-compose down -v
       - rm -rf .compose
       - docker-compose ps
